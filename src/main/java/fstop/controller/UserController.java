@@ -1,6 +1,7 @@
 package fstop.controller;
 
 import fstop.business.dto.request.UserRequestDTO;
+import fstop.business.dto.response.UserResponseDTO;
 import fstop.business.service.UserService;
 import fstop.infrastructure.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     
     @Autowired
@@ -18,7 +19,7 @@ public class UserController {
     public ResponseEntity get(@RequestParam Integer id) {
         try {
             
-            UserRequestDTO user = this.userService.findById(id);
+            UserResponseDTO user = this.userService.findById(id);
             return ResponseEntity.ok(user);
             
         } catch (Exception e) {

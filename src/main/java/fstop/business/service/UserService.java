@@ -1,6 +1,6 @@
 package fstop.business.service;
 
-import fstop.business.dto.request.UserRequestDTO;
+import fstop.business.dto.response.UserResponseDTO;
 import fstop.infrastructure.entity.User;
 import fstop.infrastructure.repository.UserRepository;
 import org.springframework.beans.BeanWrapper;
@@ -16,22 +16,25 @@ public class UserService {
     @Autowired
     private UserRepository repository;
     
-    public User save(User user) {
-        return repository.save(user);
+    public UserResponseDTO save(User user) {
+        
+        User userEntity = repository.save(user);
+        UserResponseDTO dto = new UserResponseDTO(userEntity);
+        return dto;
     }
     
-    public UserRequestDTO findById(Integer id) {
+    public UserResponseDTO findById(Integer id) {
         
         User userEntity = repository.findById(id).get();
-        UserRequestDTO dto = new UserRequestDTO(userEntity);
+        UserResponseDTO dto = new UserResponseDTO(userEntity);
         return dto;
         
     }
     
-    public UserRequestDTO findByEmail(String email) {
+    public UserResponseDTO findByEmail(String email) {
         
         User userEntity = repository.findByEmail(email).get();
-        UserRequestDTO dto = new UserRequestDTO(userEntity);
+        UserResponseDTO dto = new UserResponseDTO(userEntity);
         return dto;
         
     }
