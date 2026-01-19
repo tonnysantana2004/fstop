@@ -1,6 +1,7 @@
 package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import fstop.user.address.AddressResponseDTO;
 import fstop.user.document.DocumentResponseDTO;
 import lombok.Data;
 
@@ -11,7 +12,7 @@ import lombok.Data;
  */
 
 @Data
-@JsonPropertyOrder({ "id", "userName", "firstName", "lastName", "email","phone","avatar", "document" })
+@JsonPropertyOrder({ "id", "userName", "firstName", "lastName", "email","phone","avatar", "document", "address" })
 public class UserResponseDTO {
     
     private Long id;
@@ -22,5 +23,6 @@ public class UserResponseDTO {
     private String phone;
     private String avatar;
     private DocumentResponseDTO document;
+    private AddressResponseDTO address;
     
 }
