@@ -18,7 +18,7 @@ public class DocumentController {
     private DocumentService service;
     
     @GetMapping()
-    public final ResponseEntity<DocumentResponseDTO> getUserDocument(@PathVariable Long userId) {
+    public final ResponseEntity getUserDocument(@PathVariable Long userId) {
         
         return ResponseEntity.ok(service.getUserDocument(userId));
         

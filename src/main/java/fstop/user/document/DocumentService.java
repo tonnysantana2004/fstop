@@ -52,7 +52,9 @@ public class DocumentService {
     
     public final DocumentResponseDTO update(DocumentRequestDTO requestDTO, Long userId) {
         
-        var user = userRepository.findById(userId).orElseThrow();
+        var user = userRepository
+                .findById(userId)
+                .orElseThrow();
         
         var entity = user.getDocument();
         

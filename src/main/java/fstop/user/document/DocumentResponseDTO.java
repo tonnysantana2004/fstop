@@ -11,8 +11,6 @@ import lombok.Data;
 @Data
 public class DocumentResponseDTO {
     
-    public Long id;
-    public Long userId;
     public String documentNumber;
     public DocumentType documentType;
 }
