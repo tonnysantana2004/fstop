@@ -1,16 +1,17 @@
 package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fstop.document.DocumentEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import fstop.user.document.DocumentEntity;
 import fstop.ticket.TicketEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
     
     @Id
@@ -41,7 +42,7 @@ public class UserEntity {
     private List<TicketEntity> tickets;
     
     @OneToOne(mappedBy = "user")
-    @JsonIgnore
+    @JsonManagedReference
     private DocumentEntity document;
     
 }

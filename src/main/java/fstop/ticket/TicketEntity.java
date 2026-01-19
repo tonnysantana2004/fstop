@@ -1,10 +1,13 @@
 package fstop.ticket;
 
+import fstop.ticket.message.MessageEntity;
 import fstop.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * @author Tonny Santana
@@ -16,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ticket")
+@Table(name = "tickets")
 public class TicketEntity {
     
     @Id
@@ -26,6 +29,9 @@ public class TicketEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     private UserEntity user;
+    
+    @OneToMany(mappedBy = "ticket")
+    private List<MessageEntity> ticketMessage;
     
     @Column(nullable = false)
     public String title;
