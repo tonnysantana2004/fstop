@@ -21,7 +21,10 @@ public class UserService {
     private UserMapper mapper;
     
     public final UserResponseDTO save(UserRequestDTO request) {
-        var entity = repository.save(mapper.toEntity(request));
+        var entity = mapper.toEntity(request);
+        
+        repository.saveAndFlush(entity);
+        
         return mapper.toResponse(entity);
     }
     

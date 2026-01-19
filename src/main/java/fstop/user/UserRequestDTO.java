@@ -10,9 +10,7 @@ import lombok.Data;
 
 @Data
 public class UserRequestDTO {
-    
-    private Long id;
-    
+
     private String userName;
     
     private String firstName;

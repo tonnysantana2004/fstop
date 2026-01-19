@@ -3,7 +3,6 @@ package fstop.user;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import fstop.user.address.AddressResponseDTO;
 import fstop.user.document.DocumentResponseDTO;
-import fstop.user.role.RoleResponseDTO;
 import lombok.Data;
 
 /**
@@ -25,6 +24,6 @@ public class UserResponseDTO {
     private String avatar;
     private DocumentResponseDTO document;
     private AddressResponseDTO address;
-    private RoleResponseDTO role;
+    private UserRoleEnum role;
     
 }

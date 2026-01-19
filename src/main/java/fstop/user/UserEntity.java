@@ -1,11 +1,9 @@
 package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import fstop.ticket.TicketEntity;
 import fstop.user.address.AddressEntity;
 import fstop.user.document.DocumentEntity;
-import fstop.ticket.TicketEntity;
-import fstop.user.role.RoleEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -49,7 +47,7 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     private AddressEntity address;
     
-    @ManyToOne
-    private RoleEntity role;
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role = UserRoleEnum.CUSTOMER;
     
 }
