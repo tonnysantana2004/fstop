@@ -28,7 +28,10 @@ public class TicketService {
         var entity = mapper.toEntity(ticket);
         
         // Encontrando e corrigindo o usuário no ticket
-        var user = userRepository.findById(entity.getUser().getId()).orElseThrow();
+        
+        var userId = entity.getUser().getId();
+        
+        var user = userRepository.findById(userId).orElseThrow();
         entity.setUser(user);
 
         return mapper.toResponse(this.repository.saveAndFlush(entity));

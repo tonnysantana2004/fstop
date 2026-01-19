@@ -14,6 +14,6 @@ public class TicketResponseDTO {
     
     private Integer id;
     private String description;
-    private UserResponseDTO user;
+    private Long userId;
     
 }

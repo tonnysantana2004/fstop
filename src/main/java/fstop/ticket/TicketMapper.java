@@ -15,11 +15,9 @@ import java.util.List;
 public interface TicketMapper {
     
     @Mapping(target = "id", ignore = true)
-    
-    // Converter User id para um User, e validar no banco de dados se existe.
-    @Mapping(target = "user.id", source = "userId")
     TicketEntity toEntity(TicketRequestDTO requestDTO);
     
+    @Mapping(target = "userId", source = "user.id")
     TicketResponseDTO toResponse(TicketEntity entity);
     
     List<TicketResponseDTO> toList(List<TicketEntity> list);

@@ -2,6 +2,7 @@ package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import fstop.user.address.AddressEntity;
 import fstop.user.document.DocumentEntity;
 import fstop.ticket.TicketEntity;
 import jakarta.persistence.*;
@@ -9,9 +10,9 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @Entity
 @Table(name = "users")
+@Data
 public class UserEntity {
     
     @Id
@@ -44,5 +45,9 @@ public class UserEntity {
     @OneToOne(mappedBy = "user")
     @JsonManagedReference
     private DocumentEntity document;
+    
+    @OneToOne(mappedBy = "user")
+    @JsonManagedReference
+    private AddressEntity address;
     
 }
