@@ -17,7 +17,7 @@ public interface TicketMapper {
     @Mapping(target = "id", ignore = true)
     TicketEntity toEntity(TicketRequestDTO requestDTO);
     
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "userId", source = "user.userId")
     TicketResponseDTO toResponse(TicketEntity entity);
     
     List<TicketResponseDTO> toList(List<TicketEntity> list);

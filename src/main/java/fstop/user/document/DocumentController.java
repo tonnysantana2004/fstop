@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * @author Tonny Santana
  * @date 19/01/2026 03:19
@@ -18,19 +20,19 @@ public class DocumentController {
     private DocumentService service;
     
     @GetMapping()
-    public final ResponseEntity getUserDocument(@PathVariable Long userId) {
+    public final ResponseEntity getUserDocument(@PathVariable UUID userId) {
         
         return ResponseEntity.ok(service.getUserDocument(userId));
         
     }
     
     @PostMapping
-    public final ResponseEntity<DocumentResponseDTO> create(@RequestBody DocumentRequestDTO requestDTO, @PathVariable Long userId) {
+    public final ResponseEntity<DocumentResponseDTO> create(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
         return ResponseEntity.ok(service.create(requestDTO, userId));
     }
     
     @PutMapping()
-    public final ResponseEntity<DocumentResponseDTO> update(@RequestBody DocumentRequestDTO requestDTO, @PathVariable Long userId) {
+    public final ResponseEntity<DocumentResponseDTO> update(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
         return ResponseEntity.ok(service.update(requestDTO, userId));
     }
 }

@@ -18,7 +18,8 @@ public class AddressEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "address_id")
+    private Long addressId;
     
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -5,6 +5,8 @@ import fstop.user.address.AddressResponseDTO;
 import fstop.user.document.DocumentResponseDTO;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * @author Tonny Santana
  * @date 18/01/2026 22:24
@@ -12,10 +14,10 @@ import lombok.Data;
  */
 
 @Data
-@JsonPropertyOrder({ "id", "userName", "firstName", "lastName", "email","phone","avatar", "document", "address", "role" })
+@JsonPropertyOrder({ "userId", "userName", "firstName", "lastName", "email","phone","avatar", "document", "address", "role" })
 public class UserResponseDTO {
     
-    private Long id;
+    private UUID userId;
     private String userName;
     private String firstName;
     private String lastName;

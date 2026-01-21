@@ -4,6 +4,8 @@ import fstop.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author Tonny Santana
  * @date 19/01/2026 18:25
@@ -20,13 +22,13 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
     
-    public AddressResponseDTO getResponseEntity(Long userId) {
+    public final AddressResponseDTO getResponseEntity(UUID userId) {
         
-        return mapper.toResponse(repository.findByUserId(userId));
+        return mapper.toResponse(repository.findByUserId(userId).orElseThrow());
         
     }
     
-    public AddressResponseDTO create(AddressRequestDTO requestDTO, Long userId) {
+    public final AddressResponseDTO create(AddressRequestDTO requestDTO, UUID userId) {
         
         var user = userRepository.findById(userId).orElseThrow();
         
@@ -37,9 +39,9 @@ public class AddressService {
         return mapper.toResponse(repository.save(entity));
     }
     
-    public AddressResponseDTO update(AddressRequestDTO requestDTO, Long userId) {
+    public final AddressResponseDTO update(AddressRequestDTO requestDTO, UUID userId) {
         
-        var entity = repository.findByUserId(userId);
+        var entity = repository.findByUserId(userId).orElseThrow();
         
         mapper.mergeEntity(requestDTO, entity);
         

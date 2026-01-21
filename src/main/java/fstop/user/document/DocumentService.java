@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * @author Tonny Santana
  * @date 19/01/2026 03:21
@@ -21,7 +23,7 @@ public class DocumentService {
     @Autowired
     private UserRepository userRepository;
     
-    public final DocumentResponseDTO getUserDocument(Long userId) {
+    public final DocumentResponseDTO getUserDocument(UUID userId) {
         
         var entity = userRepository
                 .findById(userId)
@@ -33,7 +35,7 @@ public class DocumentService {
     }
     
     
-    public final DocumentResponseDTO create(DocumentRequestDTO requestDTO, Long userId) {
+    public final DocumentResponseDTO create(DocumentRequestDTO requestDTO, UUID userId) {
         
         var entity = mapper.toEntity(requestDTO);
         
@@ -50,7 +52,7 @@ public class DocumentService {
         return mapper.toResponse(entity);
     }
     
-    public final DocumentResponseDTO update(DocumentRequestDTO requestDTO, Long userId) {
+    public final DocumentResponseDTO update(DocumentRequestDTO requestDTO, UUID userId) {
         
         var user = userRepository
                 .findById(userId)

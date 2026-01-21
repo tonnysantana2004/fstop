@@ -3,6 +3,8 @@ package fstop.ticket;
 import fstop.user.UserResponseDTO;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * @author Tonny Santana
  * @date 18/01/2026 22:24
@@ -14,6 +16,6 @@ public class TicketResponseDTO {
     
     private Integer id;
     private String description;
-    private Long userId;
+    private UUID userId;
     
 }

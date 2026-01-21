@@ -13,10 +13,10 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AddressMapper {
     
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "addressId", ignore = true)
     AddressEntity toEntity(AddressRequestDTO requestDTO);
     
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "userId", source = "user.userId")
     AddressResponseDTO toResponse(AddressEntity entity);
     
     void mergeEntity(AddressRequestDTO requestDTO, @MappingTarget AddressEntity entity);

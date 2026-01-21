@@ -37,7 +37,12 @@ public class UserEntity {
     
     private String password;
     
-    private String avatar;
+    @Column(name = "profile_image")
+    private String profileImage;
+    
+    
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role = UserRoleEnum.CUSTOMER;
     
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -48,8 +53,5 @@ public class UserEntity {
     
     @OneToOne(mappedBy = "user")
     private AddressEntity address;
-    
-    @Enumerated(EnumType.STRING)
-    private UserRoleEnum role = UserRoleEnum.CUSTOMER;
     
 }

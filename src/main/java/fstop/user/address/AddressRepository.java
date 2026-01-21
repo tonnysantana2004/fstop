@@ -1,6 +1,10 @@
 package fstop.user.address;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author Tonny Santana
@@ -9,5 +13,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
     
-    AddressEntity  findByUserId(Long userId);
+    @Query("""
+        select a
+        from AddressEntity a
+        where a.user.userId = :userId
+    """)
+    Optional<AddressEntity> findByUserId(UUID userId);
 }

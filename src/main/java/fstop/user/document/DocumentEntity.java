@@ -22,7 +22,8 @@ public class DocumentEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "document_id")
+    private Long documentId;
     
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -33,6 +34,6 @@ public class DocumentEntity {
     private String documentNumber;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "document_type")
     private DocumentType documentType;
 }

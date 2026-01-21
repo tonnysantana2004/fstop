@@ -12,7 +12,7 @@ import static org.springframework.boot.SpringApplication.*;
 @SpringBootApplication
 public class FstopApplication {
     
-    void main(String[] args) {
+    public static void main(String[] args) {
         run(FstopApplication.class, args);
     }
     

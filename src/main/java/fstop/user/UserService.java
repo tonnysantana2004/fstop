@@ -1,10 +1,12 @@
 package fstop.user;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Tonny Santana
@@ -19,6 +21,7 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private UserMapper mapper;
+ 
     
     public final UserResponseDTO save(UserRequestDTO request) {
         var entity = mapper.toEntity(request);
@@ -33,9 +36,9 @@ public class UserService {
         return mapper.toList(list);
     }
     
-    public final UserResponseDTO findById(Long id) {
+    public final UserResponseDTO findById(UUID userId) {
         var entity = repository
-                .findById(id)
+                .findById(userId)
                 .orElseThrow();
         return mapper.toResponse(entity);
     }
@@ -47,16 +50,16 @@ public class UserService {
         return mapper.toResponse(entity);
     }
     
-    public final void deleteById(Long id) {
+    public final void deleteById(UUID userId) {
         var entity = repository
-                .findById(id)
+                .findById(userId)
                 .orElseThrow();
         repository.delete(entity);
     }
     
-    public final UserResponseDTO update(UserRequestDTO requestDTO, Long id) {
+    public final UserResponseDTO update(UserRequestDTO requestDTO, UUID userId) {
        
-        var entity = repository.findById(id).orElseThrow();
+        var entity = repository.findById(userId).orElseThrow();
         
         // Está alterando o entity!!! Lembre-se que é uma referência
         mapper.mergeEntity(requestDTO, entity);

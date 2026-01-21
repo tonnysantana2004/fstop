@@ -29,7 +29,7 @@ public class TicketService {
         
         // Encontrando e corrigindo o usuário no ticket
         
-        var userId = entity.getUser().getId();
+        var userId = entity.getUser().getUserId();
         
         var user = userRepository.findById(userId).orElseThrow();
         entity.setUser(user);

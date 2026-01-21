@@ -2,9 +2,13 @@ package fstop.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Tonny Santana
@@ -16,35 +20,45 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     
-    @Autowired
-    private UserService userService;
+    private final  UserService userService;
+    private final PasswordEncoder passwordEncoder;
     
-    @Autowired
-    private UserMapper mapper;
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
     
-    @PostMapping()
+    @PostMapping
+    @Transactional
     public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO requestDTO) {
+        
+        requestDTO.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+        
         return ResponseEntity.ok(this.userService.save(requestDTO));
     }
     
     @GetMapping
-    public final ResponseEntity<List<UserResponseDTO>> findAll() {
-        return ResponseEntity.ok(this.userService.findAll());
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity findAll() {
+        
+        return ResponseEntity.ok( this.userService.findAll() );
     }
     
-    @GetMapping("/{id}")
-    public final ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(this.userService.findById(id));
+    @GetMapping("/{userId}")
+    public final ResponseEntity<UserResponseDTO> findById(@PathVariable UUID userId) {
+        return ResponseEntity.ok(this.userService.findById(userId));
     }
     
-    @PutMapping("/{id}")
-    public final ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody UserRequestDTO requestDTO) {
-        return ResponseEntity.ok(this.userService.update(requestDTO, id));
+    @PutMapping("/{userId}")
+    public final ResponseEntity<UserResponseDTO> update(@PathVariable UUID userId, @RequestBody UserRequestDTO requestDTO) {
+        return ResponseEntity.ok(this.userService.update(requestDTO, userId));
     }
     
-    @DeleteMapping("/{id}")
-    public final ResponseEntity<Void> delete(@PathVariable Long id){
-        this.userService.deleteById(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{userId}")
+    public final ResponseEntity<Void> delete(@PathVariable UUID userId) {
+        this.userService.deleteById(userId);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }
