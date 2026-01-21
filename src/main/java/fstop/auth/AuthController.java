@@ -56,7 +56,7 @@ public class AuthController {
                 .issuer("backend")
                 .subject(user
                         .orElseThrow()
-                        .getUserId()
+                        .getId()
                         .toString())
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiresIn))
@@ -69,7 +69,7 @@ public class AuthController {
         
         return ResponseEntity.ok(new AuthResponse(jwtValue, expiresIn, user
                 .orElseThrow()
-                .getUserId()));
+                .getId()));
     }
     
 }

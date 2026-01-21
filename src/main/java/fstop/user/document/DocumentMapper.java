@@ -15,9 +15,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DocumentMapper {
     
-    @Mapping(target = "documentId", ignore = true)
     DocumentEntity toEntity(DocumentRequestDTO requestDTO);
-    
     DocumentResponseDTO toResponse(DocumentEntity entity);
     
     void mergeEntity(DocumentRequestDTO requestDTO, @MappingTarget DocumentEntity entity);

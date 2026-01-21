@@ -7,5 +7,5 @@ import java.util.UUID;
  * @date 20/01/2026 06:00
  * @since 1.0.0
  */
-public record AuthResponse(String accessToken, Long expiresIn, UUID userId) {
+public record AuthResponse(String accessToken, Long expiresIn, UUID id) {
 }
