@@ -17,25 +17,25 @@ import java.util.List;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "tickets")
 public class TicketEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
-    
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-    
-    @OneToMany(mappedBy = "ticket")
-    private List<MessageEntity> ticketMessage;
+    @Column(name = "ticket_id")
+    public Long ticketId;
     
     @Column(nullable = false)
     public String title;
     
     @Column(nullable = false)
     public String description;
+    
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+    
+    // chore: make this list pageable
+    @OneToMany(mappedBy = "ticket")
+    private List<MessageEntity> ticketMessage;
 }

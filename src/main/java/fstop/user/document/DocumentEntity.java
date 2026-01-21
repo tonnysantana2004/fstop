@@ -30,10 +30,11 @@ public class DocumentEntity {
     @JsonBackReference
     private UserEntity user;
     
-    @Column(name = "document_number", nullable = false)
+    @Column(name = "document_number")
     private String documentNumber;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "document_type")
-    private DocumentType documentType;
+    private DocumentType documentType = DocumentType.CPF;
+    
 }

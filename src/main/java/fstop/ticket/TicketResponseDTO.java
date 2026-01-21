@@ -1,6 +1,5 @@
 package fstop.ticket;
 
-import fstop.user.UserResponseDTO;
 import lombok.Data;
 
 import java.util.UUID;
@@ -13,9 +12,7 @@ import java.util.UUID;
 
 @Data
 public class TicketResponseDTO {
-    
     private Integer id;
     private String description;
     private UUID userId;
-    
 }

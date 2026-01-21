@@ -6,8 +6,4 @@ package fstop.user.document;
  * @since 1.0.0
  */
 
-public enum DocumentType {
-    
-    CPF, CNPJ
-    
-}
+public enum DocumentType {CPF, CNPJ}

@@ -15,8 +15,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = TicketMapper.class)
 public interface MessageMapper {
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "ticket.id", source = "ticketId")
+    @Mapping(target = "messageId", ignore = true)
+    @Mapping(target = "ticket.ticketId", source = "ticketId")
     MessageEntity toEntity(MessageRequestDTO requestDTO);
     
     MessageResponseDTO toResponse(MessageEntity entity);

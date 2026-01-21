@@ -10,10 +10,8 @@ import lombok.Data;
 
 @Data
 public class AddressRequestDTO {
-
     private String street;
     private String neighborhood;
     private Long number;
     private String postalCode;
-    
 }

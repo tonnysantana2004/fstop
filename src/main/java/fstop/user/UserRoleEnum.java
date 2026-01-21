@@ -5,6 +5,4 @@ package fstop.user;
  * @date 19/01/2026 20:34
  * @since 1.0.0
  */
-public enum UserRoleEnum {
-    ADMIN, CUSTOMER, EDITOR
-}
+public enum UserRoleEnum {ADMIN, MANAGER, EMPLOYEE, CUSTOMER}

@@ -1,6 +1,7 @@
 package fstop.ticket.message;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -10,6 +11,10 @@ import java.util.List;
  * @since 1.0.0
  */
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
-    
+    @Query("""
+        select a
+        from MessageEntity a
+        where a.ticket.ticketId = :ticketId
+    """)
     List<MessageEntity> findAllByTicketId(Long ticketId);
 }

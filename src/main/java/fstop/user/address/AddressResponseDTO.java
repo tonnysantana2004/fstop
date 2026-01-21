@@ -11,12 +11,8 @@ import java.util.UUID;
  */
 @Data
 public class AddressResponseDTO {
-
-    private Long id;
-    private UUID userId;
     private String street;
     private String neighborhood;
     private Long number;
     private String postalCode;
-
 }

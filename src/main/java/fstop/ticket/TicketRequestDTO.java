@@ -1,7 +1,5 @@
 package fstop.ticket;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fstop.user.UserEntity;
 import lombok.Data;
 
 /**
@@ -12,8 +10,6 @@ import lombok.Data;
 
 @Data
 public class TicketRequestDTO {
-    
     private String description;
     private Long userId;
-    
 }

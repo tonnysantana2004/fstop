@@ -2,6 +2,7 @@ package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
 import fstop.auth.dto.AuthResponse;
+import fstop.user.UserRoleEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * @author Tonny Santana
@@ -35,30 +37,39 @@ public class AuthController {
     
     @PostMapping("/login")
     public final ResponseEntity login(@RequestBody AuthRequest request) {
-
+        
         var user = authService.findUserByUserName(request.userName());
-
-        if ( ! authService.isLoginCorrect( request, user.orElseThrow())  || user.isEmpty() ) {
+        
+        if (!authService.isLoginCorrect(request, user.orElseThrow()) || user.isEmpty()) {
             throw new BadCredentialsException("Dados inválidos.");
         }
         
         var now = Instant.now();
         var expiresIn = 300L;
-
-        var scope = user.get().getRole();
         
-        var claims = JwtClaimsSet.builder()
+        List<String> roles = List.of(user
+                .get()
+                .getRole().name());
+        
+        var claims = JwtClaimsSet
+                .builder()
                 .issuer("backend")
-                .subject(user.orElseThrow().getUserId().toString())
+                .subject(user
+                        .orElseThrow()
+                        .getUserId()
+                        .toString())
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiresIn) )
-                .claim("scope", scope)
+                .expiresAt(now.plusSeconds(expiresIn))
+                .claim("roles", roles)
                 .build();
         
-
-        var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-
-        return ResponseEntity.ok(new AuthResponse(jwtValue, expiresIn));
+        var jwtValue = jwtEncoder
+                .encode(JwtEncoderParameters.from(claims))
+                .getTokenValue();
+        
+        return ResponseEntity.ok(new AuthResponse(jwtValue, expiresIn, user
+                .orElseThrow()
+                .getUserId()));
     }
     
 }

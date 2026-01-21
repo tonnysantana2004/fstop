@@ -16,7 +16,6 @@ import java.util.UUID;
 @Data
 @JsonPropertyOrder({ "userId", "userName", "firstName", "lastName", "email","phone","avatar", "document", "address", "role" })
 public class UserResponseDTO {
-    
     private UUID userId;
     private String userName;
     private String firstName;
@@ -27,5 +26,4 @@ public class UserResponseDTO {
     private DocumentResponseDTO document;
     private AddressResponseDTO address;
     private UserRoleEnum role;
-    
 }

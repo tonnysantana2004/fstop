@@ -10,7 +10,6 @@ import lombok.Data;
 
 @Data
 public class DocumentRequestDTO {
-    public Long userId;
     public String documentNumber;
     public DocumentType documentType;
 }

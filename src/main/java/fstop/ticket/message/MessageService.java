@@ -1,6 +1,7 @@
 package fstop.ticket.message;
 
 import fstop.ticket.TicketRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,11 @@ import java.util.List;
  */
 
 @Service
+@AllArgsConstructor
 public class MessageService {
     
-    @Autowired
     private MessageRepository repository;
-    @Autowired
     private MessageMapper mapper;
-    @Autowired
     private TicketRepository ticketRepository;
     
     public final List<MessageResponseDTO> findAllByTicketId(Long ticketId) {
@@ -29,12 +28,9 @@ public class MessageService {
     public final MessageResponseDTO create(MessageRequestDTO requestDTO) {
         
         var entity = mapper.toEntity(requestDTO);
-        
-        var ticket = ticketRepository.findById(entity.getTicket().getId()).orElseThrow();
+        var ticket = ticketRepository.findById(entity.getTicket().getTicketId()).orElseThrow();
         entity.setTicket(ticket);
-        
         repository.saveAndFlush(entity);
-        
         return mapper.toResponse(entity);
     }
 }

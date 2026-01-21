@@ -37,7 +37,8 @@ public class AdminUserConfig implements CommandLineRunner {
                     user.setLastName("Sistema");
                     user.setEmail("admin@email.com");
                     user.setPhone(null);
-                    user.setAvatar(null);
+                    user.setProfileImage(null);
+                    // chore: encode the password on user entity instead of here
                     user.setPassword(service.passwordEncoder.encode("123"));
                     user.setRole(roleAdmin);
                     

@@ -1,8 +1,7 @@
 package fstop.user.document;
 
 import fstop.user.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,55 +13,42 @@ import java.util.UUID;
  */
 
 @Service
+@AllArgsConstructor
 public class DocumentService {
     
-    @Autowired
     private DocumentRepository repository;
-    @Autowired
     private DocumentMapper mapper;
-    @Autowired
     private UserRepository userRepository;
     
     public final DocumentResponseDTO getUserDocument(UUID userId) {
-        
         var entity = userRepository
                 .findById(userId)
                 .orElseThrow()
-                .getDocument()
-                ;
-        
+                .getDocument();
         return mapper.toResponse(entity);
     }
     
     
     public final DocumentResponseDTO create(DocumentRequestDTO requestDTO, UUID userId) {
-        
         var entity = mapper.toEntity(requestDTO);
         
         var user = userRepository
                 .findById(userId)
                 .orElseThrow();
         
-        // Preenchendo os dados do usuário no documento
         entity.setUser(user);
-        
-        // Salvando o documento
         repository.save(entity);
         
         return mapper.toResponse(entity);
     }
     
     public final DocumentResponseDTO update(DocumentRequestDTO requestDTO, UUID userId) {
-        
         var user = userRepository
                 .findById(userId)
                 .orElseThrow();
         
         var entity = user.getDocument();
-        
-        // Edita o entity
         mapper.mergeEntity(requestDTO, entity);
-        
         repository.save(entity);
         
         return mapper.toResponse(entity);

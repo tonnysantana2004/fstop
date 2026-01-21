@@ -10,9 +10,9 @@ import lombok.Data;
 import java.util.List;
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name = "users")
-@Data
 public class UserEntity {
     
     @Id
@@ -40,18 +40,20 @@ public class UserEntity {
     @Column(name = "profile_image")
     private String profileImage;
     
-    
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role = UserRoleEnum.CUSTOMER;
     
-    @OneToMany(mappedBy = "user")
+    // Entitys
+    
     @JsonIgnore
+    @OneToMany(mappedBy = "user")
     private List<TicketEntity> tickets;
     
-    @OneToOne(mappedBy = "user")
+    // Não há problema deixar eles no frontend
+    // já que o único que tem acesso a esse json são usuários admin e gestores
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentEntity document;
-    
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private AddressEntity address;
     
 }

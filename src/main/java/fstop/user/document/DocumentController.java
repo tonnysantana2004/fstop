@@ -16,19 +16,14 @@ import java.util.UUID;
 @RequestMapping("/users/{userId}/document")
 public class DocumentController {
     
-    @Autowired
     private DocumentService service;
+    public DocumentController(DocumentService service) {
+        this.service = service;
+    }
     
     @GetMapping()
     public final ResponseEntity getUserDocument(@PathVariable UUID userId) {
-        
         return ResponseEntity.ok(service.getUserDocument(userId));
-        
-    }
-    
-    @PostMapping
-    public final ResponseEntity<DocumentResponseDTO> create(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
-        return ResponseEntity.ok(service.create(requestDTO, userId));
     }
     
     @PutMapping()

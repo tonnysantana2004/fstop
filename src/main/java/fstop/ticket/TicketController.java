@@ -1,5 +1,6 @@
 package fstop.ticket;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,27 +15,24 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tickets")
+@AllArgsConstructor
 public class TicketController {
     
-    @Autowired
     TicketService service;
     
     @PostMapping
     public final ResponseEntity<TicketResponseDTO> create(@RequestBody TicketRequestDTO ticket) {
-        var responseDTO = this.service.save(ticket);
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(this.service.save(ticket));
     }
     
     @GetMapping
     public final ResponseEntity<List<TicketResponseDTO>> list() {
-        var listResponseDTO = this.service.findAll();
-        return ResponseEntity.ok(listResponseDTO);
+        return ResponseEntity.ok(this.service.findAll());
     }
     
     @GetMapping("/{id}")
     public final ResponseEntity<TicketResponseDTO> findById(@PathVariable Long id) {
-        var responseDTO = this.service.findById(id);
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(this.service.findById(id));
     }
     
     @DeleteMapping("/{id}")

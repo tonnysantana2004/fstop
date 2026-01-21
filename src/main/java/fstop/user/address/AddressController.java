@@ -1,5 +1,6 @@
 package fstop.user.address;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,25 +15,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users/{userId}/address")
+@AllArgsConstructor
 public class AddressController {
     
-    @Autowired
     private AddressService service;
     
     @GetMapping
     public final ResponseEntity<AddressResponseDTO> getUserAddress(@PathVariable UUID userId) {
-       
         return ResponseEntity.ok( service.getResponseEntity(userId) ) ;
-        
-    }
-    
-    @PostMapping
-    public final ResponseEntity create(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
-        return ResponseEntity.ok(service.create(requestDTO, userId));
     }
     
     @PutMapping
-    public final ResponseEntity update(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
+    public final ResponseEntity<AddressResponseDTO> update(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
         return ResponseEntity.ok(service.update(requestDTO,userId) );
     }
 

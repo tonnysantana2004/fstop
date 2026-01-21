@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = UserMapper.class)
 public interface TicketMapper {
     
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "ticketId", ignore = true)
     TicketEntity toEntity(TicketRequestDTO requestDTO);
     
     @Mapping(target = "userId", source = "user.userId")

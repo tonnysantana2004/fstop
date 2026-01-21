@@ -12,7 +12,6 @@ import java.util.UUID;
  * @since 1.0.0
  */
 public interface AddressRepository extends JpaRepository<AddressEntity, Long> {
-    
     @Query("""
         select a
         from AddressEntity a

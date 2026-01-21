@@ -1,6 +1,6 @@
 package fstop.user.address;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fstop.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -21,20 +21,19 @@ public class AddressEntity {
     @Column(name = "address_id")
     private Long addressId;
     
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
-    private UserEntity user;
-    
     private String street;
     private String neighborhood;
     private String city;
     private String country;
     private Short number;
     
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+    
     @Column(name = "address_complement")
     private String addressComplement;
     
-    @Column(name = "postal_code", nullable = false)
+    @Column(name = "postal_code")
     private String postalCode;
 }

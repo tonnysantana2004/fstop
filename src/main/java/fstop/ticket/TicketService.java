@@ -1,6 +1,7 @@
 package fstop.ticket;
 
 import fstop.user.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,27 +14,18 @@ import java.util.List;
  */
 
 @Service
+@AllArgsConstructor
 public class TicketService {
     
-    @Autowired
     TicketRepository repository;
-    @Autowired
     TicketMapper mapper;
-    @Autowired
     UserRepository userRepository;
     
     public final TicketResponseDTO save(TicketRequestDTO ticket) {
-        
-        
         var entity = mapper.toEntity(ticket);
-        
-        // Encontrando e corrigindo o usuário no ticket
-        
         var userId = entity.getUser().getUserId();
-        
         var user = userRepository.findById(userId).orElseThrow();
         entity.setUser(user);
-
         return mapper.toResponse(this.repository.saveAndFlush(entity));
     }
     
@@ -46,7 +38,7 @@ public class TicketService {
        var entity = repository.findById(id).orElseThrow();
        return mapper.toResponse(entity);
     }
-    
+
     public final void deleteById(Long id) {
         this.repository.deleteById(id);
     }

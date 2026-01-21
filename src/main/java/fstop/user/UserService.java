@@ -1,9 +1,10 @@
 package fstop.user;
 
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import fstop.user.address.AddressEntity;
+import fstop.user.document.DocumentEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,53 +18,66 @@ import java.util.UUID;
 @Service
 public class UserService {
     
-    @Autowired
     private UserRepository repository;
-    @Autowired
     private UserMapper mapper;
- 
+    private PasswordEncoder passwordEncoder;
     
-    public final UserResponseDTO save(UserRequestDTO request) {
-        var entity = mapper.toEntity(request);
-        
-        repository.saveAndFlush(entity);
-        
-        return mapper.toResponse(entity);
+    public UserService(UserRepository r, UserMapper m, PasswordEncoder p) {
+        this.repository = r;
+        this.mapper = m;
+        this.passwordEncoder = p;
     }
     
-    public final List<UserResponseDTO> findAll() {
+    @Transactional
+    public UserResponseDTO create(UserRequestDTO request) {
+        var userEntity = mapper.toEntity(request);
+        
+        // Password Hash
+        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        
+        // Document
+        var document = new DocumentEntity();
+        document.setUser(userEntity);
+        userEntity.setDocument(document);
+        
+        // Address
+        var address = new AddressEntity();
+        address.setUser(userEntity);
+        userEntity.setAddress(address);
+        
+        repository.saveAndFlush(userEntity);
+        return mapper.toResponse(userEntity);
+    }
+    
+    public List<UserResponseDTO> findAll() {
         var list = repository.findAll();
         return mapper.toList(list);
     }
     
-    public final UserResponseDTO findById(UUID userId) {
+    public UserResponseDTO findById(UUID userId) {
         var entity = repository
                 .findById(userId)
                 .orElseThrow();
         return mapper.toResponse(entity);
     }
     
-    public final UserResponseDTO findByEmail(String email) {
-        var entity = repository
-                .findByEmail(email)
-                .orElseThrow();
-        return mapper.toResponse(entity);
-    }
-    
-    public final void deleteById(UUID userId) {
+    public void deleteById(UUID userId) throws Exception {
         var entity = repository
                 .findById(userId)
                 .orElseThrow();
+        
+        if(entity.getRole() == UserRoleEnum.ADMIN) {
+            throw new Exception("you can't procceed this action.");
+        }
+        
         repository.delete(entity);
     }
     
-    public final UserResponseDTO update(UserRequestDTO requestDTO, UUID userId) {
-       
-        var entity = repository.findById(userId).orElseThrow();
-        
-        // Está alterando o entity!!! Lembre-se que é uma referência
+    public UserResponseDTO update(UserRequestDTO requestDTO, UUID userId) {
+        var entity = repository
+                .findById(userId)
+                .orElseThrow();
         mapper.mergeEntity(requestDTO, entity);
-        
         return mapper.toResponse(repository.save(entity));
     }
 }

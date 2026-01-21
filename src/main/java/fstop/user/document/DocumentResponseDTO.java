@@ -10,7 +10,6 @@ import lombok.Data;
 
 @Data
 public class DocumentResponseDTO {
-    
     public String documentNumber;
     public DocumentType documentType;
 }
