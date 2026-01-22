@@ -1,7 +1,7 @@
 package fstop.user.address;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fstop.BaseClass;
+import fstop.BaseEntity;
 import fstop.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.Data;
 @Entity
 @Table(name = "addresses")
 @Data
-public class AddressEntity extends BaseClass {
+public class AddressEntity extends BaseEntity {
     
     private String street;
     private String neighborhood;

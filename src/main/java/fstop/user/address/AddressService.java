@@ -20,7 +20,9 @@ public class AddressService {
     private AddressMapper mapper;
     private UserRepository userRepository;
     
-    public final AddressResponseDTO getResponseEntity(UUID userId) {
+    public final AddressResponseDTO findByUserId(UUID userId) {
+        
+        // chore: create the document if it doesnt exist...
         return mapper.toResponse(repository
                 .findByUserId(userId)
                 .orElseThrow());

@@ -1,7 +1,7 @@
 package fstop.user.document;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import fstop.BaseClass;
+import fstop.BaseEntity;
 import fstop.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "documents")
-public class DocumentEntity extends BaseClass {
+public class DocumentEntity extends BaseEntity {
     
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)

@@ -1,20 +1,19 @@
 package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fstop.BaseClass;
-import fstop.ticket.TicketEntity;
+import fstop.BaseEntity;
+import fstop.ticket.infrastructure.TicketEntity;
 import fstop.user.address.AddressEntity;
 import fstop.user.document.DocumentEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "users")
-public class UserEntity extends BaseClass {
+public class UserEntity extends BaseEntity {
     
     @Column(unique = true, nullable = false, name = "user_name")
     private String userName;
@@ -38,13 +37,10 @@ public class UserEntity extends BaseClass {
     
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role = UserRoleEnum.CUSTOMER;
-    
-    // Entitys
-    
-    // Não há problema deixar eles no frontend
-    // já que o único que tem acesso a esse json são usuários admin e gestores
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentEntity document;
+    
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private AddressEntity address;
     

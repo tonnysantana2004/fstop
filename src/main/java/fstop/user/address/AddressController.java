@@ -26,7 +26,7 @@ public class AddressController {
     public final Object getUserAddress(@PathVariable UUID userId) {
 
         var list = new ArrayList<>();
-        list.add(service.getResponseEntity(userId));
+        list.add(service.findByUserId(userId));
         
         return ResponseService.success("Endereço recuperado.", list);
     }
