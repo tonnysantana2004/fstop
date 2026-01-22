@@ -1,10 +1,12 @@
 package fstop.user.address;
 
+import fstop.response.ResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -21,13 +23,21 @@ public class AddressController {
     private AddressService service;
     
     @GetMapping
-    public final ResponseEntity<AddressResponseDTO> getUserAddress(@PathVariable UUID userId) {
-        return ResponseEntity.ok( service.getResponseEntity(userId) ) ;
+    public final Object getUserAddress(@PathVariable UUID userId) {
+
+        var list = new ArrayList<>();
+        list.add(service.getResponseEntity(userId));
+        
+        return ResponseService.success("Endereço recuperado.", list);
     }
     
     @PutMapping
-    public final ResponseEntity<AddressResponseDTO> update(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
-        return ResponseEntity.ok(service.update(requestDTO,userId) );
+    public final Object update(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
+        
+        var list = new ArrayList<>();
+        list.add(service.update(requestDTO,userId));
+        
+        return ResponseService.success("Endereço Atualizado.", list);
     }
 
 }

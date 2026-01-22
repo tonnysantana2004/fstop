@@ -1,14 +1,11 @@
 package fstop.user;
 
-import fstop.response.ApiResponseEntity;
 import fstop.response.ResponseService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -25,41 +22,44 @@ public class UserController {
     private final UserService userService;
     
     @PostMapping
-    public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO requestDTO) {
-        return ResponseEntity.ok(this.userService.create(requestDTO));
+    public Object create(@RequestBody UserRequestDTO requestDTO) {
+        
+        var userInLiST = new ArrayList<>();
+        userInLiST.add(this.userService.create(requestDTO));
+        
+        return ResponseService.success("Novo usuário criado.", userInLiST);
     }
     
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<ApiResponseEntity<List<UserResponseDTO>>> findAll() {
-        return ResponseService.success("Usuários encontrados.", this.userService.findAll());
+    public Object findAll() {
+        var users = this.userService.findAll();
+        return ResponseService.success("Usuários encontrados.", users);
     }
     
     @GetMapping("/{userId}")
-    public ResponseEntity<UserResponseDTO> findById(@PathVariable UUID userId) {
-        return ResponseEntity.ok(this.userService.findById(userId));
+    public Object findById(@PathVariable UUID userId) {
+        
+        var userInLiST = new ArrayList<>();
+        userInLiST.add(this.userService.findById(userId));
+        
+        return ResponseService.success("Usuário encontrado.", userInLiST);
     }
     
     @PutMapping("/{userId}")
-    public ResponseEntity<UserResponseDTO> update(@PathVariable UUID userId, @RequestBody UserRequestDTO requestDTO) {
-        return ResponseEntity.ok(this.userService.update(requestDTO, userId));
+    public Object update(@PathVariable UUID userId, @RequestBody UserRequestDTO requestDTO) {
+        
+        var userInLiST = new ArrayList<>();
+        userInLiST.add(this.userService.update(requestDTO, userId));
+        
+        return ResponseService.success("Usuário encontrado.", userInLiST);
     }
     
     @DeleteMapping("/{userId}")
-    public ResponseEntity delete(@PathVariable UUID userId) {
+    public Object delete(@PathVariable UUID userId) throws Exception {
         
-        try {
-            
-            this.userService.deleteById(userId);
-            
-        } catch (Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e);
-        }
+        this.userService.deleteById(userId);
         
-        return ResponseEntity
-                .ok()
-                .build();
+        return ResponseService.success("Exclusão sucessedida.", null);
     }
 }

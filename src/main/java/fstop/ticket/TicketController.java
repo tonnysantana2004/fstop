@@ -1,9 +1,11 @@
 package fstop.ticket;
 
+import fstop.response.ResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -20,25 +22,26 @@ public class TicketController {
     private final TicketService ticketService;
     
     @GetMapping
-    public ResponseEntity findAll() {
-        return ResponseEntity.ok(ticketService.findAll());
+    public Object findAll() {
+        return ResponseService.success("Tickets Encontrados", ticketService.findAll());
     }
     
     @GetMapping("/categories")
-    public ResponseEntity findAllCategories() {
-        return ResponseEntity.ok(ticketService.findAllCategories());
+    public Object findAllCategories() {
+        return ResponseService.success("Categorias de Tickets Encontradas", ticketService.findAllCategories());
     }
     
     @PostMapping
-    public ResponseEntity create(@RequestBody TicketRequest request) {
-        return ResponseEntity.ok(ticketService.create(request));
+    public Object create(@RequestBody TicketRequest request) {
+        var list = new ArrayList<>();
+        list.add(ticketService.create(request));
+        return ResponseService.success("Ticket Criado", list);
     }
     
     @DeleteMapping("/{ticketId}")
-    public ResponseEntity delete (@PathVariable UUID ticketId) {
+    public Object delete(@PathVariable UUID ticketId) {
         ticketService.delete(ticketId);
-        return this.findAll();
-        // return ResponseEntity.ok(uuid);
+        return ResponseService.success("Ticket deletado", null);
     }
     
     

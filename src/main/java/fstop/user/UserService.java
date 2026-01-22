@@ -1,5 +1,7 @@
 package fstop.user;
 
+import fstop.exception.user.AdminDeleteException;
+import fstop.exception.user.UserNotFoundException;
 import fstop.user.address.AddressEntity;
 import fstop.user.document.DocumentEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,28 +57,18 @@ public class UserService {
     }
     
     public UserResponseDTO findById(UUID userId) {
-        var entity = repository
-                .findById(userId)
-                .orElseThrow();
+        var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
         return mapper.toResponse(entity);
     }
     
     public void deleteById(UUID userId) throws Exception {
-        var entity = repository
-                .findById(userId)
-                .orElseThrow();
-        
-        if(entity.getRole() == UserRoleEnum.ADMIN) {
-            throw new Exception("you can't procceed this action.");
-        }
-        
+        var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if (entity.getRole() == UserRoleEnum.ADMIN) throw new AdminDeleteException();
         repository.delete(entity);
     }
     
     public UserResponseDTO update(UserRequestDTO requestDTO, UUID userId) {
-        var entity = repository
-                .findById(userId)
-                .orElseThrow();
+        var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
         mapper.mergeEntity(requestDTO, entity);
         return mapper.toResponse(repository.save(entity));
     }

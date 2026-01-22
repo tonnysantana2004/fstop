@@ -1,9 +1,11 @@
 package fstop.user.document;
 
+import fstop.response.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -22,12 +24,16 @@ public class DocumentController {
     }
     
     @GetMapping()
-    public final ResponseEntity getUserDocument(@PathVariable UUID userId) {
-        return ResponseEntity.ok(service.getUserDocument(userId));
+    public final Object getUserDocument(@PathVariable UUID userId) {
+        var list = new ArrayList<>();
+        list.add(service.getUserDocument(userId) );
+        return  ResponseService.success("Documento recuperado.", list);
     }
     
     @PutMapping()
-    public final ResponseEntity<DocumentResponseDTO> update(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
-        return ResponseEntity.ok(service.update(requestDTO, userId));
+    public final Object update(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
+        var list = new ArrayList<>();
+        list.add(service.update(requestDTO, userId));
+        return ResponseService.success("Documento recuperado.", list );
     }
 }

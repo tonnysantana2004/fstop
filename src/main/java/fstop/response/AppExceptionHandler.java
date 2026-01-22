@@ -1,6 +1,6 @@
 package fstop.response;
 
-import org.springframework.http.ResponseEntity;
+import fstop.exception.BaseException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AppExceptionHandler {
     
-
-    @ExceptionHandler(RuntimeException.class)
-    public  ResponseEntity<ApiResponseEntity<String>> handleRuntimeException(RuntimeException exception) {
-        return ResponseService.error("Erro no em tempo de execução.", exception.getMessage());
+    
+    @ExceptionHandler(BaseException.class)
+    public  Object handleBaseException(BaseException exception) {
+        return ResponseService.error(exception.getMessage(), exception.getErrors());
     }
     
 }

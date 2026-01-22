@@ -12,14 +12,14 @@ public class ResponseService {
     
     // Success
     public static <T> ResponseEntity<ApiResponseEntity<T>> success(String message, T data) {
-        return ResponseEntity.ok(new ApiResponseEntity<>("success", data, message, null));
+        return ResponseEntity.ok(new ApiResponseEntity<>("success", message,  data, null));
     }
     
     // Error
-    public static <T> ResponseEntity<ApiResponseEntity<T>> error(T data, String message) {
+    public static <T> ResponseEntity<ApiResponseEntity<T>> error(String message, T data) {
         return ResponseEntity
                 .badRequest()
-                .body(new ApiResponseEntity<>("error", data, message, null));
+                .body(new ApiResponseEntity<>("error", message,  data, null));
     }
     
 }
