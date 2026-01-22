@@ -4,10 +4,14 @@ import fstop.auth.dto.AuthRequest;
 import fstop.user.infrastructure.UserEntity;
 import fstop.user.dto.UserMapper;
 import fstop.user.infrastructure.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author Tonny Santana
@@ -24,7 +28,7 @@ public class AuthService {
         this.userMapper = userMapper;
     }
     
-    private UserRepository userRepository;
+    private static UserRepository userRepository;
     private UserMapper userMapper;
     public PasswordEncoder passwordEncoder;
     
@@ -45,5 +49,13 @@ public class AuthService {
     
     public void saveUser(UserEntity user) {
         userRepository.saveAndFlush(user);
+    }
+    
+    public static UserEntity getAuthenticatedUser (){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String userId = jwt.getClaimAsString("sub");
+        
+        return userRepository.findById(UUID.fromString(userId)).orElseThrow();
     }
 }
