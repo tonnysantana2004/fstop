@@ -1,5 +1,6 @@
 package fstop.ticket.message;
 
+import fstop.auth.AuthService;
 import fstop.ticket.message.infrastructure.MessageRepository;
 import fstop.ticket.infrastructure.TicketRepository;
 import fstop.ticket.message.dto.MessageMapper;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,22 +35,11 @@ public class MessageService {
     }
     
     public Object create(MessageRequest request, UUID ticketId) {
-        
         var messageEntity = mapper.toEntity(request);
-        // Ticket
         var ticket = ticketRepository.findById(ticketId).orElseThrow();
         messageEntity.setTicket(ticket);
-        
-        // User
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Jwt jwt = (Jwt) authentication.getPrincipal();
-        assert jwt != null;
-        String userId = jwt.getClaimAsString("sub");
-        var author = userRepository.findById(UUID.fromString(userId)).orElseThrow();
-        
-        messageEntity.setAuthor(author);
-        
-        return  mapper.toResponse( repository.save( messageEntity ) ) ;
+        messageEntity.setAuthor(AuthService.getAuthenticatedUser());
+        return mapper.toList(List.of(repository.save(messageEntity)));
     }
     
 }

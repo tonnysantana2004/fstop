@@ -36,7 +36,7 @@ public class UserService {
     }
     
     @Transactional
-    public UserResponse create(UserRequest request) {
+    public List<UserResponse> create(UserRequest request) {
         var userEntity = mapper.toEntity(request);
         
         // Password Hash
@@ -53,7 +53,7 @@ public class UserService {
         userEntity.setAddress(address);
         
         repository.saveAndFlush(userEntity);
-        return mapper.toResponse(userEntity);
+        return mapper.toList(List.of(userEntity));
     }
     
     public List<UserResponse> findAll() {
@@ -61,9 +61,9 @@ public class UserService {
         return mapper.toList(list);
     }
     
-    public UserResponse findById(UUID userId) {
+    public List<UserResponse> findById(UUID userId) {
         var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
-        return mapper.toResponse(entity);
+        return mapper.toList(List.of(entity));
     }
     
     public void deleteById(UUID userId) throws Exception {
@@ -72,9 +72,9 @@ public class UserService {
         repository.delete(entity);
     }
     
-    public UserResponse update(UserRequest request, UUID userId) {
+    public List<UserResponse> update(UserRequest request, UUID userId) {
         var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
         mapper.mergeEntity(request, entity);
-        return mapper.toResponse(repository.save(entity));
+        return mapper.toList(List.of(repository.save(entity)));
     }
 }

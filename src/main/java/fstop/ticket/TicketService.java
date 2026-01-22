@@ -1,5 +1,6 @@
 package fstop.ticket;
 
+import fstop.auth.AuthService;
 import fstop.ticket.category.dto.TicketCategoryMapper;
 import fstop.ticket.category.infrastructure.TicketCategoryRepository;
 import fstop.ticket.category.dto.TicketCategoryResponse;
@@ -38,42 +39,30 @@ public class TicketService {
         return ticketMapper.toList(this.ticketRepository.findAll());
     }
     
-    public Object findById(UUID ticketId) {
-        
+    public List<TicketResponse> findById(UUID ticketId) {
         var entity = ticketRepository.findById(ticketId).orElseThrow();
         var response = ticketMapper.toResponse(entity);
-        var list = new ArrayList<>();
-        list.add(response);
-        
-        return list;
+        return List.of(response);
     }
     
     public List<TicketCategoryResponse> findAllCategories() {
         return ticketCategoryMapper.toListCategory(this.ticketCategoryRepository.findAll());
     }
     
-    public TicketResponse create(TicketRequest request) {
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Jwt jwt = (Jwt) authentication.getPrincipal();
-        String userId = jwt.getClaimAsString("sub");
-        
-        var entity = ticketMapper.toEntity(request);
-        
-        var issuer = userRepository.findById(UUID.fromString(userId)).orElseThrow();
-        entity.setIssuer(issuer);
+    public List<TicketResponse> create(TicketRequest request) {
+        var ticketEntity = ticketMapper.toEntity(request);
+        ticketEntity.setIssuer(AuthService.getAuthenticatedUser());
         
         var category = ticketCategoryRepository.findById(request.getCategoryId()).orElseThrow();
+        ticketEntity.setCategory(category);
         
-        entity.setCategory(category);
-        
-        return ticketMapper.toResponse(ticketRepository.save(entity)) ;
+        return ticketMapper.toList(List.of(ticketRepository.save(ticketEntity)));
     }
     
     // @Transactional
-    public void delete (UUID ticketId) {
+    public void delete(UUID ticketId) {
         var entity = ticketRepository.findById(ticketId).orElseThrow();
         ticketRepository.delete(entity);
     }
-
+    
 }

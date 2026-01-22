@@ -39,9 +39,7 @@ public class TicketController {
     
     @PostMapping
     public Object create(@RequestBody TicketRequest request) {
-        var list = new ArrayList<>();
-        list.add(ticketService.create(request));
-        return ResponseService.success("Ticket Criado", list);
+        return ResponseService.success("Ticket Criado", ticketService.create(request));
     }
     
     @DeleteMapping("/{ticketId}")

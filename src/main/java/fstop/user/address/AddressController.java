@@ -23,20 +23,12 @@ public class AddressController {
     
     @GetMapping
     public final Object getUserAddress(@PathVariable UUID userId) {
-
-        var list = new ArrayList<>();
-        list.add(service.findByUserId(userId));
-        
-        return ResponseService.success("Endereço recuperado.", list);
+        return ResponseService.success("Endereço recuperado.", service.findByUserId(userId));
     }
     
     @PutMapping
     public final Object update(@RequestBody AddressRequest request, @PathVariable UUID userId) {
-        
-        var list = new ArrayList<>();
-        list.add(service.update(request,userId));
-        
-        return ResponseService.success("Endereço Atualizado.", list);
+        return ResponseService.success("Endereço Atualizado.", service.update(request,userId));
     }
 
 }

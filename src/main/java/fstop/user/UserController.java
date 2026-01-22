@@ -24,43 +24,28 @@ public class UserController {
     
     @PostMapping
     public Object create(@RequestBody UserRequest request) {
-        
-        var userInLiST = new ArrayList<>();
-        userInLiST.add(this.userService.create(request));
-        
-        return ResponseService.success("Novo usuário criado.", userInLiST);
+        return ResponseService.success("Novo usuário criado.", userService.create(request));
     }
     
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public Object findAll() {
-        var users = this.userService.findAll();
-        return ResponseService.success("Usuários encontrados.", users);
+        return ResponseService.success("Usuários encontrados.", userService.findAll());
     }
     
     @GetMapping("/{userId}")
     public Object findById(@PathVariable UUID userId) {
-        
-        var userInLiST = new ArrayList<>();
-        userInLiST.add(this.userService.findById(userId));
-        
-        return ResponseService.success("Usuário encontrado.", userInLiST);
+        return ResponseService.success("Usuário encontrado.", userService.findById(userId));
     }
     
     @PutMapping("/{userId}")
     public Object update(@PathVariable UUID userId, @RequestBody UserRequest request) {
-        
-        var userInLiST = new ArrayList<>();
-        userInLiST.add(this.userService.update(request, userId));
-        
-        return ResponseService.success("Usuário encontrado.", userInLiST);
+        return ResponseService.success("Usuário encontrado.", userService.update(request, userId));
     }
     
     @DeleteMapping("/{userId}")
     public Object delete(@PathVariable UUID userId) throws Exception {
-        
-        this.userService.deleteById(userId);
-        
+        userService.deleteById(userId);
         return ResponseService.success("Exclusão sucessedida.", null);
     }
 }
