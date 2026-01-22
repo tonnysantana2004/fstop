@@ -1,6 +1,11 @@
 package fstop;
 
+import fstop.ticket.category.TicketCategoryEntity;
+import fstop.ticket.category.TicketCategoryRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
 import static org.springframework.boot.SpringApplication.*;
 
 /**
@@ -16,4 +21,20 @@ public class FstopApplication {
         run(FstopApplication.class, args);
     }
     
+    @Bean
+    CommandLineRunner innitData(TicketCategoryRepository ticketCategoryRepository) {
+        
+        return args -> {
+            if (ticketCategoryRepository.count() == 0) {
+                ticketCategoryRepository.save(new TicketCategoryEntity("Suporte Técnico"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Finanças"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Recursos Humanos"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Comercial / Vendas"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Infraestrutura / TI"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Jurídico / Contratos"));
+                ticketCategoryRepository.save(new TicketCategoryEntity("Sugestões / Feedback"));
+            }
+        };
+        
+    }
 }

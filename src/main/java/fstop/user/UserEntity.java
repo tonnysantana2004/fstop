@@ -2,6 +2,7 @@ package fstop.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fstop.BaseClass;
+import fstop.ticket.TicketEntity;
 import fstop.user.address.AddressEntity;
 import fstop.user.document.DocumentEntity;
 import jakarta.persistence.*;
@@ -46,5 +47,9 @@ public class UserEntity extends BaseClass {
     private DocumentEntity document;
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private AddressEntity address;
+    
+    @OneToMany(mappedBy = "issuer")
+    @JsonIgnore
+    private List<TicketEntity> tickets;
     
 }

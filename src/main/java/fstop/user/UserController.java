@@ -1,5 +1,8 @@
 package fstop.user;
 
+import fstop.response.ApiResponseEntity;
+import fstop.response.ResponseService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +19,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
     
     private final UserService userService;
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
     
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO requestDTO) {
@@ -30,8 +31,8 @@ public class UserController {
     
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
-    public ResponseEntity<List<UserResponseDTO>> findAll() {
-        return ResponseEntity.ok( this.userService.findAll() );
+    public ResponseEntity<ApiResponseEntity<List<UserResponseDTO>>> findAll() {
+        return ResponseService.success("Usuários encontrados.", this.userService.findAll());
     }
     
     @GetMapping("/{userId}")
@@ -50,10 +51,11 @@ public class UserController {
         try {
             
             this.userService.deleteById(userId);
-        
+            
         } catch (Exception e) {
             return ResponseEntity
-                    .badRequest().body(e);
+                    .badRequest()
+                    .body(e);
         }
         
         return ResponseEntity
