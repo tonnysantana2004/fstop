@@ -1,5 +1,6 @@
-package fstop.ticket;
+package fstop.ticket.dto;
 
+import fstop.ticket.infrastructure.TicketPriority;
 import lombok.Data;
 
 import java.util.UUID;

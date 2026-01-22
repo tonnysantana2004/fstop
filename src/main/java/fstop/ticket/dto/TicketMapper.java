@@ -1,6 +1,8 @@
-package fstop.ticket;
+package fstop.ticket.dto;
 
 import fstop.ticket.category.TicketCategoryMapper;
+import fstop.ticket.infrastructure.TicketEntity;
+import fstop.ticket.message.MessageMapper;
 import fstop.user.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +17,7 @@ import java.util.List;
  * @since 1.0.0
  */
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = {UserMapper.class, TicketCategoryMapper.class})
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = {UserMapper.class, TicketCategoryMapper.class, MessageMapper.class})
 public interface TicketMapper {
     
     TicketEntity toEntity(TicketRequest request);

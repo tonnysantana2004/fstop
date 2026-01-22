@@ -1,8 +1,8 @@
 package fstop.ticket;
 
 import fstop.response.ResponseService;
+import fstop.ticket.dto.TicketRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,9 +21,15 @@ public class TicketController {
     
     private final TicketService ticketService;
     
+    
     @GetMapping
     public Object findAll() {
         return ResponseService.success("Tickets Encontrados", ticketService.findAll());
+    }
+    
+    @GetMapping("{ticketId}")
+    public Object findeById(@PathVariable UUID ticketId) {
+        return ResponseService.success("Ticket Encontrado", ticketService.findById(ticketId));
     }
     
     @GetMapping("/categories")

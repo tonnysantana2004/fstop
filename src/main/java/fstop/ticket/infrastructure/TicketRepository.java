@@ -1,4 +1,4 @@
-package fstop.ticket;
+package fstop.ticket.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

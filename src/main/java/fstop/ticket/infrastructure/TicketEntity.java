@@ -1,13 +1,14 @@
-package fstop.ticket;
+package fstop.ticket.infrastructure;
 
-import fstop.BaseClass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fstop.BaseEntity;
+import fstop.ticket.message.MessageEntity;
 import fstop.ticket.category.TicketCategoryEntity;
 import fstop.user.UserEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Tonny Santana
@@ -18,7 +19,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name= "tickets")
-public class TicketEntity extends BaseClass {
+public class TicketEntity extends BaseEntity {
     
     @ManyToOne
     @JoinColumn(name = "issuer_id")
@@ -31,6 +32,10 @@ public class TicketEntity extends BaseClass {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private TicketCategoryEntity category;
+    
+    @OneToMany(mappedBy = "ticket")
+    @JsonIgnore
+    private List<MessageEntity> messages;
     
     private String title;
     private String description;

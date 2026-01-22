@@ -1,6 +1,6 @@
 package fstop.ticket.category;
 
-import fstop.BaseClass;
+import fstop.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "ticket_categories")
-public class TicketCategoryEntity extends BaseClass {
+public class TicketCategoryEntity extends BaseEntity {
     private String name;
     
     public TicketCategoryEntity(String name) {

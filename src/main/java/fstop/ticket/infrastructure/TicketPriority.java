@@ -1,4 +1,4 @@
-package fstop.ticket;
+package fstop.ticket.infrastructure;
 
 /**
  * @author Tonny Santana

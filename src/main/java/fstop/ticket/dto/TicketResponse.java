@@ -1,10 +1,13 @@
-package fstop.ticket;
+package fstop.ticket.dto;
 
+import fstop.ticket.infrastructure.TicketPriority;
+import fstop.ticket.infrastructure.TicketStatus;
 import fstop.ticket.category.TicketCategoryResponse;
-import fstop.user.UserEntity;
+import fstop.ticket.message.MessageResponse;
 import fstop.user.UserResponseDTO;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
