@@ -1,6 +1,7 @@
 package fstop.user;
 
 import fstop.response.ResponseService;
+import fstop.user.dto.UserRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,10 @@ public class UserController {
     private final UserService userService;
     
     @PostMapping
-    public Object create(@RequestBody UserRequestDTO requestDTO) {
+    public Object create(@RequestBody UserRequest request) {
         
         var userInLiST = new ArrayList<>();
-        userInLiST.add(this.userService.create(requestDTO));
+        userInLiST.add(this.userService.create(request));
         
         return ResponseService.success("Novo usuário criado.", userInLiST);
     }
@@ -47,10 +48,10 @@ public class UserController {
     }
     
     @PutMapping("/{userId}")
-    public Object update(@PathVariable UUID userId, @RequestBody UserRequestDTO requestDTO) {
+    public Object update(@PathVariable UUID userId, @RequestBody UserRequest request) {
         
         var userInLiST = new ArrayList<>();
-        userInLiST.add(this.userService.update(requestDTO, userId));
+        userInLiST.add(this.userService.update(request, userId));
         
         return ResponseService.success("Usuário encontrado.", userInLiST);
     }

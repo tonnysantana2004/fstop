@@ -1,6 +1,7 @@
 package fstop.ticket.message;
 
 import fstop.response.ResponseService;
+import fstop.ticket.message.dto.MessageRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,7 @@
 package fstop.user.document;
 
 import fstop.response.ResponseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import fstop.user.document.dto.DocumentRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,15 +24,11 @@ public class DocumentController {
     
     @GetMapping()
     public final Object getUserDocument(@PathVariable UUID userId) {
-        var list = new ArrayList<>();
-        list.add(service.getUserDocument(userId) );
-        return  ResponseService.success("Documento recuperado.", list);
+        return  ResponseService.success("Documento recuperado.", service.getUserDocument(userId));
     }
     
     @PutMapping()
-    public final Object update(@RequestBody DocumentRequestDTO requestDTO, @PathVariable UUID userId) {
-        var list = new ArrayList<>();
-        list.add(service.update(requestDTO, userId));
-        return ResponseService.success("Documento recuperado.", list );
+    public final Object update(@RequestBody DocumentRequest request, @PathVariable UUID userId) {
+        return ResponseService.success("Documento atualizado.", service.update(request, userId) );
     }
 }

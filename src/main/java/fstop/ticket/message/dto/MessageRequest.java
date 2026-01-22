@@ -1,4 +1,4 @@
-package fstop.ticket.message;
+package fstop.ticket.message.dto;
 
 import lombok.Data;
 

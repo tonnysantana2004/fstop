@@ -1,8 +1,8 @@
-package fstop.user.document;
+package fstop.user.document.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import fstop.BaseEntity;
-import fstop.user.UserEntity;
+import fstop.user.infrastructure.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

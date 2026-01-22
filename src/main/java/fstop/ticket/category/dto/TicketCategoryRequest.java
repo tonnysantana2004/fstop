@@ -1,4 +1,4 @@
-package fstop.ticket.category;
+package fstop.ticket.category.dto;
 
 import lombok.Data;
 
@@ -6,11 +6,11 @@ import java.util.UUID;
 
 /**
  * @author Tonny Santana
- * @date 21/01/2026 07:59
+ * @date 21/01/2026 08:10
  * @since 1.0.0
  */
 @Data
-public class TicketCategoryResponse {
+public class TicketCategoryRequest {
     private UUID id;
     private String name;
 }

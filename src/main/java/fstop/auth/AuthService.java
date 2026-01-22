@@ -1,10 +1,9 @@
 package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
-import fstop.user.UserEntity;
-import fstop.user.UserMapper;
-import fstop.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import fstop.user.infrastructure.UserEntity;
+import fstop.user.dto.UserMapper;
+import fstop.user.infrastructure.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -2,12 +2,10 @@ package fstop.ticket.dto;
 
 import fstop.ticket.infrastructure.TicketPriority;
 import fstop.ticket.infrastructure.TicketStatus;
-import fstop.ticket.category.TicketCategoryResponse;
-import fstop.ticket.message.MessageResponse;
-import fstop.user.UserResponseDTO;
+import fstop.ticket.category.dto.TicketCategoryResponse;
+import fstop.user.dto.UserResponse;
 import lombok.Data;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,10 +15,9 @@ import java.util.UUID;
  */
 @Data
 public class TicketResponse {
-    
     private UUID id;
-    private UserResponseDTO issuer;
-    private UserResponseDTO assignee;
+    private UserResponse issuer;
+    private UserResponse assignee;
     private TicketCategoryResponse category;
     
     private String title;

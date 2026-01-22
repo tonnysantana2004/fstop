@@ -2,7 +2,6 @@ package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
 import fstop.auth.dto.AuthResponse;
-import fstop.user.UserRoleEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;

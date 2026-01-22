@@ -1,8 +1,8 @@
-package fstop.ticket.message;
+package fstop.ticket.message.infrastructure;
 
 import fstop.BaseEntity;
 import fstop.ticket.infrastructure.TicketEntity;
-import fstop.user.UserEntity;
+import fstop.user.infrastructure.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

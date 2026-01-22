@@ -1,5 +1,6 @@
-package fstop.user.document;
+package fstop.user.document.dto;
 
+import fstop.user.document.infrastructure.DocumentType;
 import lombok.Data;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-public class DocumentRequestDTO {
+public class DocumentRequest {
     public String documentNumber;
     public DocumentType documentType;
 }

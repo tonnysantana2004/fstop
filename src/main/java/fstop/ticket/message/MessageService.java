@@ -1,14 +1,16 @@
 package fstop.ticket.message;
 
+import fstop.ticket.message.infrastructure.MessageRepository;
 import fstop.ticket.infrastructure.TicketRepository;
-import fstop.user.UserRepository;
+import fstop.ticket.message.dto.MessageMapper;
+import fstop.ticket.message.dto.MessageRequest;
+import fstop.user.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**

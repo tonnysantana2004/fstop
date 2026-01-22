@@ -1,5 +1,6 @@
-package fstop.user;
+package fstop.user.dto;
 
+import fstop.user.infrastructure.UserEntity;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -13,13 +14,13 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
     
-    UserEntity toEntity(UserRequestDTO requestDTO);
+    UserEntity toEntity(UserRequest request);
     
-    UserResponseDTO toResponse(UserEntity entity);
+    UserResponse toResponse(UserEntity entity);
     
-    List<UserResponseDTO> toList(List<UserEntity> list);
+    List<UserResponse> toList(List<UserEntity> list);
     
-    void mergeEntity(UserRequestDTO requestDTO, @MappingTarget UserEntity entity);
+    void mergeEntity(UserRequest request, @MappingTarget UserEntity entity);
     
 
 }

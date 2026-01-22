@@ -1,5 +1,6 @@
-package fstop.ticket.category;
+package fstop.ticket.category.dto;
 
+import fstop.ticket.category.infrastructure.TicketCategoryEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

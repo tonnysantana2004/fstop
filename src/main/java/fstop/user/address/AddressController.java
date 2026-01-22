@@ -1,9 +1,8 @@
 package fstop.user.address;
 
 import fstop.response.ResponseService;
+import fstop.user.address.dto.AddressRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,10 +31,10 @@ public class AddressController {
     }
     
     @PutMapping
-    public final Object update(@RequestBody AddressRequestDTO requestDTO, @PathVariable UUID userId) {
+    public final Object update(@RequestBody AddressRequest request, @PathVariable UUID userId) {
         
         var list = new ArrayList<>();
-        list.add(service.update(requestDTO,userId));
+        list.add(service.update(request,userId));
         
         return ResponseService.success("Endereço Atualizado.", list);
     }

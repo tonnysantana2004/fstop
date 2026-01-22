@@ -1,9 +1,9 @@
 package fstop.ticket.dto;
 
-import fstop.ticket.category.TicketCategoryMapper;
+import fstop.ticket.category.dto.TicketCategoryMapper;
 import fstop.ticket.infrastructure.TicketEntity;
-import fstop.ticket.message.MessageMapper;
-import fstop.user.UserMapper;
+import fstop.ticket.message.dto.MessageMapper;
+import fstop.user.dto.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

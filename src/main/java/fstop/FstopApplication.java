@@ -1,7 +1,7 @@
 package fstop;
 
-import fstop.ticket.category.TicketCategoryEntity;
-import fstop.ticket.category.TicketCategoryRepository;
+import fstop.ticket.category.infrastructure.TicketCategoryEntity;
+import fstop.ticket.category.infrastructure.TicketCategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

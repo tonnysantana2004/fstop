@@ -2,9 +2,9 @@ package fstop.ticket.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fstop.BaseEntity;
-import fstop.ticket.message.MessageEntity;
-import fstop.ticket.category.TicketCategoryEntity;
-import fstop.user.UserEntity;
+import fstop.ticket.category.infrastructure.TicketCategoryEntity;
+import fstop.ticket.message.infrastructure.MessageEntity;
+import fstop.user.infrastructure.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

@@ -1,9 +1,8 @@
-package fstop.ticket.message;
+package fstop.ticket.message.dto;
 
 import fstop.ticket.dto.TicketMapper;
-import fstop.ticket.infrastructure.TicketEntity;
-import fstop.user.UserEntity;
-import fstop.user.UserMapper;
+import fstop.ticket.message.infrastructure.MessageEntity;
+import fstop.user.dto.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

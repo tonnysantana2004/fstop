@@ -1,4 +1,4 @@
-package fstop.ticket.category;
+package fstop.ticket.category.infrastructure;
 
 import fstop.BaseEntity;
 import jakarta.persistence.Entity;

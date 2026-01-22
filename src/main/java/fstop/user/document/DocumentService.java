@@ -1,9 +1,15 @@
 package fstop.user.document;
 
-import fstop.user.UserRepository;
+import fstop.user.document.dto.DocumentMapper;
+import fstop.user.document.dto.DocumentRequest;
+import fstop.user.document.dto.DocumentResponse;
+import fstop.user.document.infrastructure.DocumentRepository;
+import fstop.user.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,17 +26,17 @@ public class DocumentService {
     private DocumentMapper mapper;
     private UserRepository userRepository;
     
-    public final DocumentResponseDTO getUserDocument(UUID userId) {
+    public Object getUserDocument(UUID userId) {
         var entity = userRepository
                 .findById(userId)
                 .orElseThrow()
                 .getDocument();
-        return mapper.toResponse(entity);
+        return mapper.toList(List.of(entity));
     }
     
     
-    public final DocumentResponseDTO create(DocumentRequestDTO requestDTO, UUID userId) {
-        var entity = mapper.toEntity(requestDTO);
+    public Object create(DocumentRequest request, UUID userId) {
+        var entity = mapper.toEntity(request);
         
         var user = userRepository
                 .findById(userId)
@@ -39,18 +45,18 @@ public class DocumentService {
         entity.setUser(user);
         repository.save(entity);
         
-        return mapper.toResponse(entity);
+        return mapper.toList(List.of(entity));
     }
     
-    public final DocumentResponseDTO update(DocumentRequestDTO requestDTO, UUID userId) {
+    public Object update(DocumentRequest request, UUID userId) {
         var user = userRepository
                 .findById(userId)
                 .orElseThrow();
         
         var entity = user.getDocument();
-        mapper.mergeEntity(requestDTO, entity);
+        mapper.mergeEntity(request, entity);
         repository.save(entity);
         
-        return mapper.toResponse(entity);
+        return mapper.toList(List.of(entity));
     }
 }

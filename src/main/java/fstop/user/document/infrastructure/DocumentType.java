@@ -1,4 +1,4 @@
-package fstop.user.document;
+package fstop.user.document.infrastructure;
 
 /**
  * @author Tonny Santana

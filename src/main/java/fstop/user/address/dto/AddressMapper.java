@@ -1,7 +1,7 @@
-package fstop.user.address;
+package fstop.user.address.dto;
 
+import fstop.user.address.infrastructure.AddressEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -13,9 +13,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AddressMapper {
     
-    AddressEntity toEntity(AddressRequestDTO requestDTO);
-    AddressResponseDTO toResponse(AddressEntity entity);
+    AddressEntity toEntity(AddressRequest request);
+    AddressResponse toResponse(AddressEntity entity);
     
-    void mergeEntity(AddressRequestDTO requestDTO, @MappingTarget AddressEntity entity);
+    void mergeEntity(AddressRequest request, @MappingTarget AddressEntity entity);
     
 }

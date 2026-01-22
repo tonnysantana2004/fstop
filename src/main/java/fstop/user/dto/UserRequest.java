@@ -1,4 +1,4 @@
-package fstop.user;
+package fstop.user.dto;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class UserRequestDTO {
+public class UserRequest {
     private String userName;
     private String firstName;
     private String lastName;

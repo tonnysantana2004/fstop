@@ -1,7 +1,7 @@
-package fstop.ticket.message;
+package fstop.ticket.message.dto;
 
 import fstop.ticket.dto.TicketResponse;
-import fstop.user.UserResponseDTO;
+import fstop.user.dto.UserResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 public class MessageResponse {
     private UUID id;
-    private UserResponseDTO author;
+    private UserResponse author;
     private String content;
     private LocalDateTime createdAt;
     private TicketResponse ticket;

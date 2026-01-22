@@ -1,9 +1,7 @@
-package fstop.user;
+package fstop.user.infrastructure;
 
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.UUID;
 

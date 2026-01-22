@@ -1,4 +1,4 @@
-package fstop.user;
+package fstop.user.infrastructure;
 
 /**
  * @author Tonny Santana

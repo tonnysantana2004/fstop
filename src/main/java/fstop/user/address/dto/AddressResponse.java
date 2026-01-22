@@ -1,8 +1,6 @@
-package fstop.user.address;
+package fstop.user.address.dto;
 
 import lombok.Data;
-
-import java.util.UUID;
 
 /**
  * @author Tonny Santana
@@ -10,7 +8,7 @@ import java.util.UUID;
  * @since 1.0.0
  */
 @Data
-public class AddressResponseDTO {
+public class AddressResponse {
     private String street;
     private String neighborhood;
     private Long number;

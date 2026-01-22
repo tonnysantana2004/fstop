@@ -2,8 +2,13 @@ package fstop.user;
 
 import fstop.exception.user.AdminDeleteException;
 import fstop.exception.user.UserNotFoundException;
-import fstop.user.address.AddressEntity;
-import fstop.user.document.DocumentEntity;
+import fstop.user.address.infrastructure.AddressEntity;
+import fstop.user.document.infrastructure.DocumentEntity;
+import fstop.user.dto.UserMapper;
+import fstop.user.dto.UserRequest;
+import fstop.user.dto.UserResponse;
+import fstop.user.infrastructure.UserRepository;
+import fstop.user.infrastructure.UserRoleEnum;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +36,7 @@ public class UserService {
     }
     
     @Transactional
-    public UserResponseDTO create(UserRequestDTO request) {
+    public UserResponse create(UserRequest request) {
         var userEntity = mapper.toEntity(request);
         
         // Password Hash
@@ -51,12 +56,12 @@ public class UserService {
         return mapper.toResponse(userEntity);
     }
     
-    public List<UserResponseDTO> findAll() {
+    public List<UserResponse> findAll() {
         var list = repository.findAll();
         return mapper.toList(list);
     }
     
-    public UserResponseDTO findById(UUID userId) {
+    public UserResponse findById(UUID userId) {
         var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
         return mapper.toResponse(entity);
     }
@@ -67,9 +72,9 @@ public class UserService {
         repository.delete(entity);
     }
     
-    public UserResponseDTO update(UserRequestDTO requestDTO, UUID userId) {
+    public UserResponse update(UserRequest request, UUID userId) {
         var entity = repository.findById(userId).orElseThrow(UserNotFoundException::new);
-        mapper.mergeEntity(requestDTO, entity);
+        mapper.mergeEntity(request, entity);
         return mapper.toResponse(repository.save(entity));
     }
 }

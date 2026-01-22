@@ -1,8 +1,8 @@
 package fstop.auth.config;
 
 import fstop.auth.AuthService;
-import fstop.user.UserEntity;
-import fstop.user.UserRoleEnum;
+import fstop.user.infrastructure.UserEntity;
+import fstop.user.infrastructure.UserRoleEnum;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

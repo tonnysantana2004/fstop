@@ -1,6 +1,10 @@
 package fstop.user.address;
 
-import fstop.user.UserRepository;
+import fstop.user.address.dto.AddressMapper;
+import fstop.user.address.dto.AddressRequest;
+import fstop.user.address.dto.AddressResponse;
+import fstop.user.address.infrastructure.AddressRepository;
+import fstop.user.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,7 @@ public class AddressService {
     private AddressMapper mapper;
     private UserRepository userRepository;
     
-    public final AddressResponseDTO findByUserId(UUID userId) {
+    public final AddressResponse findByUserId(UUID userId) {
         
         // chore: create the document if it doesnt exist...
         return mapper.toResponse(repository
@@ -28,8 +32,8 @@ public class AddressService {
                 .orElseThrow());
     }
     
-    public final AddressResponseDTO create(AddressRequestDTO requestDTO, UUID userId) {
-        var entity = mapper.toEntity(requestDTO);
+    public final AddressResponse create(AddressRequest request, UUID userId) {
+        var entity = mapper.toEntity(request);
         var user = userRepository
                 .findById(userId)
                 .orElseThrow();
@@ -37,11 +41,11 @@ public class AddressService {
         return mapper.toResponse(repository.save(entity));
     }
     
-    public final AddressResponseDTO update(AddressRequestDTO requestDTO, UUID userId) {
+    public final AddressResponse update(AddressRequest request, UUID userId) {
         var entity = repository
                 .findByUserId(userId)
                 .orElseThrow();
-        mapper.mergeEntity(requestDTO, entity);
+        mapper.mergeEntity(request, entity);
         return mapper.toResponse(repository.save(entity));
     }
     

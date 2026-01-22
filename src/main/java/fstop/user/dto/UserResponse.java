@@ -1,8 +1,9 @@
-package fstop.user;
+package fstop.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import fstop.user.address.AddressResponseDTO;
-import fstop.user.document.DocumentResponseDTO;
+import fstop.user.address.dto.AddressResponse;
+import fstop.user.document.dto.DocumentResponse;
+import fstop.user.infrastructure.UserRoleEnum;
 import lombok.Data;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 
 @Data
 @JsonPropertyOrder({ "id", "userName", "firstName", "lastName", "email","phone","profileImage", "document", "address", "role" })
-public class UserResponseDTO {
+public class UserResponse {
     private UUID id;
     private String userName;
     private String firstName;
@@ -23,7 +24,7 @@ public class UserResponseDTO {
     private String email;
     private String phone;
     private String profileImage;
-    private DocumentResponseDTO document;
-    private AddressResponseDTO address;
+    private DocumentResponse document;
+    private AddressResponse address;
     private UserRoleEnum role;
 }

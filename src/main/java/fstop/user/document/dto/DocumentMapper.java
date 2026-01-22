@@ -1,7 +1,7 @@
-package fstop.user.document;
+package fstop.user.document.dto;
 
+import fstop.user.document.infrastructure.DocumentEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -15,9 +15,10 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DocumentMapper {
     
-    DocumentEntity toEntity(DocumentRequestDTO requestDTO);
-    DocumentResponseDTO toResponse(DocumentEntity entity);
+    DocumentEntity toEntity(DocumentRequest request);
+    DocumentResponse toResponse(DocumentEntity entity);
+    List<DocumentResponse> toList(List<DocumentEntity> list);
     
-    void mergeEntity(DocumentRequestDTO requestDTO, @MappingTarget DocumentEntity entity);
+    void mergeEntity(DocumentRequest request, @MappingTarget DocumentEntity entity);
     
 }

@@ -1,13 +1,13 @@
 package fstop.ticket;
 
-import fstop.ticket.category.TicketCategoryMapper;
-import fstop.ticket.category.TicketCategoryRepository;
-import fstop.ticket.category.TicketCategoryResponse;
+import fstop.ticket.category.dto.TicketCategoryMapper;
+import fstop.ticket.category.infrastructure.TicketCategoryRepository;
+import fstop.ticket.category.dto.TicketCategoryResponse;
 import fstop.ticket.dto.TicketMapper;
 import fstop.ticket.dto.TicketRequest;
 import fstop.ticket.dto.TicketResponse;
 import fstop.ticket.infrastructure.TicketRepository;
-import fstop.user.UserRepository;
+import fstop.user.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

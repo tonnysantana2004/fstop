@@ -1,8 +1,7 @@
-package fstop.user.address;
+package fstop.user.address.infrastructure;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import fstop.BaseEntity;
-import fstop.user.UserEntity;
+import fstop.user.infrastructure.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

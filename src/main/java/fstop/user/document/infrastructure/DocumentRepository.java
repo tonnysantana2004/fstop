@@ -1,4 +1,4 @@
-package fstop.user.document;
+package fstop.user.document.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
