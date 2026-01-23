@@ -37,10 +37,10 @@ public class UserService {
     
     @Transactional
     public List<UserResponse> create(UserRequest request, boolean admin) {
+        // Entity
         var userEntity = mapper.toEntity(request);
-        
-        // Password Hash
-        userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        var password = passwordEncoder.encode(request.getPassword());
+        userEntity.setPassword(password);
         
         // Document
         var document = new DocumentEntity();
@@ -52,9 +52,7 @@ public class UserService {
         address.setUser(userEntity);
         userEntity.setAddress(address);
         
-        if(admin) {
-            userEntity.setRole(UserRoleEnum.ADMIN);
-        }
+        if(admin) userEntity.setRole(UserRoleEnum.ADMIN);
         
         repository.saveAndFlush(userEntity);
         return mapper.toList(List.of(userEntity));
