@@ -2,6 +2,7 @@ package fstop.auth.config;
 
 import fstop.auth.AuthService;
 import fstop.user.UserService;
+import fstop.user.dto.UserMapper;
 import fstop.user.dto.UserRequest;
 import fstop.user.infrastructure.UserEntity;
 import fstop.user.infrastructure.UserRepository;
@@ -26,6 +27,8 @@ public class AdminUserConfig implements CommandLineRunner {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
     
     @Override
     @Transactional
@@ -37,20 +40,17 @@ public class AdminUserConfig implements CommandLineRunner {
                 user -> IO.println("Admin existe"),
                 () -> {
                     
-                    UserRequest user = new UserRequest();
+                    var request = new UserRequest();
+                    request.setUserName("admin");
+                    request.setFirstName("Administrador");
+                    request.setLastName("Sistema");
+                    request.setEmail("admin@email.com");
+                    request.setPhone(null);
+                    request.setProfileImage(null);
+                    request.setPassword("123");
                     
-                    user.setUserName("admin");
-                    user.setFirstName("Administrador");
-                    user.setLastName("Sistema");
-                    user.setEmail("admin@email.com");
-                    user.setPhone(null);
-                    user.setProfileImage(null);
-                    // chore: encode the password on user entity instead of here
-                    user.setPassword(service.passwordEncoder.encode("123"));
+                    userService.create(request, true).getFirst();
                     
-                    var userEntity = userService.create(user, true).getFirst();
-                    
-                    userEntity.setRole(UserRoleEnum.ADMIN);
                 }
         );
         

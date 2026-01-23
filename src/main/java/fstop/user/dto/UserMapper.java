@@ -15,8 +15,10 @@ import java.util.List;
 public interface UserMapper {
     
     UserEntity toEntity(UserRequest request);
-    
+
     UserResponse toResponse(UserEntity entity);
+    
+    UserEntity fromResponse(UserResponse response);
     
     List<UserResponse> toList(List<UserEntity> list);
     
