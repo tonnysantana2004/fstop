@@ -36,7 +36,7 @@ public class UserService {
     }
     
     @Transactional
-    public List<UserResponse> create(UserRequest request) {
+    public List<UserResponse> create(UserRequest request, boolean admin) {
         var userEntity = mapper.toEntity(request);
         
         // Password Hash
@@ -51,6 +51,10 @@ public class UserService {
         var address = new AddressEntity();
         address.setUser(userEntity);
         userEntity.setAddress(address);
+        
+        if(admin) {
+            userEntity.setRole(UserRoleEnum.ADMIN);
+        }
         
         repository.saveAndFlush(userEntity);
         return mapper.toList(List.of(userEntity));

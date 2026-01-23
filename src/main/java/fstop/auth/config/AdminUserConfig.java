@@ -1,7 +1,10 @@
 package fstop.auth.config;
 
 import fstop.auth.AuthService;
+import fstop.user.UserService;
+import fstop.user.dto.UserRequest;
 import fstop.user.infrastructure.UserEntity;
+import fstop.user.infrastructure.UserRepository;
 import fstop.user.infrastructure.UserRoleEnum;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +22,23 @@ public class AdminUserConfig implements CommandLineRunner {
     
     @Autowired
     private AuthService service;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
     
     @Override
     @Transactional
     public void run(String... args) throws Exception{
-    
-        var roleAdmin = UserRoleEnum.ADMIN;
         
         var userAdmin = service.findUserByUserName("admin");
         
         userAdmin.ifPresentOrElse(
                 user -> IO.println("Admin existe"),
                 () -> {
-                    UserEntity user = new UserEntity();
+                    
+                    UserRequest user = new UserRequest();
+                    
                     user.setUserName("admin");
                     user.setFirstName("Administrador");
                     user.setLastName("Sistema");
@@ -40,9 +47,10 @@ public class AdminUserConfig implements CommandLineRunner {
                     user.setProfileImage(null);
                     // chore: encode the password on user entity instead of here
                     user.setPassword(service.passwordEncoder.encode("123"));
-                    user.setRole(roleAdmin);
                     
-                    service.saveUser(user);
+                    var userEntity = userService.create(user, true).getFirst();
+                    
+                    userEntity.setRole(UserRoleEnum.ADMIN);
                 }
         );
         

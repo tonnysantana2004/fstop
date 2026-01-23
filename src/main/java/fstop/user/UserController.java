@@ -24,7 +24,7 @@ public class UserController {
     
     @PostMapping
     public Object create(@RequestBody UserRequest request) {
-        return ResponseService.success("Novo usuário criado.", userService.create(request));
+        return ResponseService.success("Novo usuário criado.", userService.create(request, false));
     }
     
     @GetMapping
