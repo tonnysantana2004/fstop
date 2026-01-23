@@ -1,6 +1,7 @@
 package fstop.ticket.message;
 
 import fstop.auth.AuthService;
+import fstop.exception.ticket.TicketNotFoundException;
 import fstop.ticket.message.infrastructure.MessageRepository;
 import fstop.ticket.infrastructure.TicketRepository;
 import fstop.ticket.message.dto.MessageMapper;
@@ -30,13 +31,13 @@ public class MessageService {
     public TicketRepository ticketRepository;
     
     public Object findAll(UUID ticketId) {
-        var ticket = ticketRepository.findById(ticketId).orElseThrow();
+        var ticket = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         return mapper.toList(ticket.getMessages());
     }
     
     public Object create(MessageRequest request, UUID ticketId) {
         var messageEntity = mapper.toEntity(request);
-        var ticket = ticketRepository.findById(ticketId).orElseThrow();
+        var ticket = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         messageEntity.setTicket(ticket);
         messageEntity.setAuthor(AuthService.getAuthenticatedUser());
         return mapper.toList(List.of(repository.save(messageEntity)));

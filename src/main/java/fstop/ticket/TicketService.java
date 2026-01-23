@@ -1,6 +1,8 @@
 package fstop.ticket;
 
 import fstop.auth.AuthService;
+import fstop.exception.ticket.TicketCategoryNotFoundException;
+import fstop.exception.ticket.TicketNotFoundException;
 import fstop.ticket.category.dto.TicketCategoryMapper;
 import fstop.ticket.category.infrastructure.TicketCategoryRepository;
 import fstop.ticket.category.dto.TicketCategoryResponse;
@@ -40,7 +42,7 @@ public class TicketService {
     }
     
     public List<TicketResponse> findById(UUID ticketId) {
-        var entity = ticketRepository.findById(ticketId).orElseThrow();
+        var entity = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         var response = ticketMapper.toResponse(entity);
         return List.of(response);
     }
@@ -53,7 +55,9 @@ public class TicketService {
         var ticketEntity = ticketMapper.toEntity(request);
         ticketEntity.setIssuer(AuthService.getAuthenticatedUser());
         
-        var category = ticketCategoryRepository.findById(request.getCategoryId()).orElseThrow();
+        var category = ticketCategoryRepository
+                .findById(request.getCategoryId())
+                .orElseThrow(TicketCategoryNotFoundException::new);
         ticketEntity.setCategory(category);
         
         return ticketMapper.toList(List.of(ticketRepository.save(ticketEntity)));
@@ -61,7 +65,7 @@ public class TicketService {
     
     // @Transactional
     public void delete(UUID ticketId) {
-        var entity = ticketRepository.findById(ticketId).orElseThrow();
+        var entity = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         ticketRepository.delete(entity);
     }
     

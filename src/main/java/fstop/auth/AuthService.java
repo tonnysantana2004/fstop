@@ -34,16 +34,12 @@ public class AuthService {
     
     
     public boolean isLoginCorrect(AuthRequest request, UserEntity user) {
-        
         if (!passwordEncoder.matches(request.password(), user.getPassword())) return false;
-        
         return true;
     }
     
     public Optional<UserEntity> findUserByUserName(String username) {
-        
         var user = userRepository.findByUserName(username);
-        
         return user;
     }
     

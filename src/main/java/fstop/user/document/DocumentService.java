@@ -30,9 +30,7 @@ public class DocumentService {
     public List<DocumentResponse> getUserDocument(UUID userId) {
         var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         var document = user.getDocument();
-        
         if (document == null) document = this.create(userId);
-        
         return mapper.toList(List.of(document));
     }
     

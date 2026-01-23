@@ -11,6 +11,4 @@ import java.util.UUID;
  */
 public interface TicketRepository extends JpaRepository<TicketEntity, UUID> {
 
-
-
 }

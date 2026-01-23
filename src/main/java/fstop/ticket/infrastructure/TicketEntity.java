@@ -33,7 +33,7 @@ public class TicketEntity extends BaseEntity {
     @JoinColumn(name = "category_id")
     private TicketCategoryEntity category;
     
-    @OneToMany(mappedBy = "ticket")
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<MessageEntity> messages;
     

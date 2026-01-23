@@ -59,7 +59,7 @@ public class AuthController {
                 .builder()
                 .issuer("backend")
                 .subject(user
-                        .orElseThrow()
+                        .orElseThrow(UserNotFoundException::new)
                         .getId()
                         .toString())
                 .issuedAt(now)
@@ -72,7 +72,7 @@ public class AuthController {
                 .getTokenValue();
         
         return ResponseEntity.ok(new AuthResponse(jwtValue, expiresIn, user
-                .orElseThrow()
+                .orElseThrow(UserNotFoundException::new)
                 .getId()));
     }
     
