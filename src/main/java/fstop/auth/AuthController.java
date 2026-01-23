@@ -2,6 +2,7 @@ package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
 import fstop.auth.dto.AuthResponse;
+import fstop.exception.user.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -39,7 +40,11 @@ public class AuthController {
         
         var user = authService.findUserByUserName(request.userName());
         
-        if (!authService.isLoginCorrect(request, user.orElseThrow()) || user.isEmpty()) {
+        if (user.isEmpty()) {
+            throw new BadCredentialsException("Dados inválidos.");
+        }
+        
+        if (!authService.isLoginCorrect(request, user.orElseThrow(UserNotFoundException::new))) {
             throw new BadCredentialsException("Dados inválidos.");
         }
         

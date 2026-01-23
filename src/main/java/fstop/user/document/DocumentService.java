@@ -1,7 +1,10 @@
 package fstop.user.document;
 
+import fstop.exception.user.UserNotFoundException;
 import fstop.user.document.dto.DocumentMapper;
 import fstop.user.document.dto.DocumentRequest;
+import fstop.user.document.dto.DocumentResponse;
+import fstop.user.document.infrastructure.DocumentEntity;
 import fstop.user.document.infrastructure.DocumentRepository;
 import fstop.user.infrastructure.UserRepository;
 import lombok.AllArgsConstructor;
@@ -24,21 +27,24 @@ public class DocumentService {
     private DocumentMapper mapper;
     private UserRepository userRepository;
     
-    public Object getUserDocument(UUID userId) {
-        var user = userRepository.findById(userId).orElseThrow();
-        var documentEntity = user.getDocument();
-        return mapper.toList(List.of(documentEntity));
+    public List<DocumentResponse> getUserDocument(UUID userId) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        var document = user.getDocument();
+        
+        if (document == null) document = this.create(userId);
+        
+        return mapper.toList(List.of(document));
     }
     
-    public Object create(DocumentRequest request, UUID userId) {
-        var documentEntity = mapper.toEntity(request);
-        var user = userRepository.findById(userId).orElseThrow();
-        documentEntity.setUser(user);
-        return mapper.toList(List.of(repository.save(documentEntity)));
+    public DocumentEntity create(UUID userId) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        var document = new DocumentEntity();
+        document.setUser(user);
+        return repository.save(document);
     }
     
-    public Object update(DocumentRequest request, UUID userId) {
-        var user = userRepository.findById(userId).orElseThrow();
+    public List<DocumentResponse> update(DocumentRequest request, UUID userId) {
+        var user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         var documentEntity = user.getDocument();
         mapper.mergeEntity(request, documentEntity);
         return mapper.toList(List.of(repository.save(documentEntity)));
