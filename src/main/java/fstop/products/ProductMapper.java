@@ -1,6 +1,7 @@
 package fstop.products;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ProductMapper {
     ProductEntity toEntity(ProductRequest request);
     ProductResponse toResponse(ProductEntity entity);
     List<ProductResponse> toList(List<ProductEntity> list);
+    
+    void mergeEntity (ProductRequest request, @MappingTarget ProductEntity entity);
 }
