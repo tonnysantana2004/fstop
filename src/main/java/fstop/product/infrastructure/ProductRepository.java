@@ -1,4 +1,4 @@
-package fstop.products;
+package fstop.product.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

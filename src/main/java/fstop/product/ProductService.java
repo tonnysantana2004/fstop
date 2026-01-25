@@ -1,6 +1,10 @@
-package fstop.products;
+package fstop.product;
 
 import fstop.exception.product.ProductNotFoundException;
+import fstop.product.dto.ProductMapper;
+import fstop.product.dto.ProductRequest;
+import fstop.product.dto.ProductResponse;
+import fstop.product.infrastructure.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

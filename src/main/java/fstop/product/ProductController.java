@@ -1,5 +1,6 @@
-package fstop.products;
+package fstop.product;
 
+import fstop.product.dto.ProductRequest;
 import fstop.response.ResponseService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

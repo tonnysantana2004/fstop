@@ -1,5 +1,6 @@
-package fstop.products;
+package fstop.product.dto;
 
+import fstop.product.infrastructure.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;

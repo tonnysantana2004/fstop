@@ -1,4 +1,4 @@
-package fstop.products;
+package fstop.product.dto;
 
 import jakarta.persistence.Column;
 import lombok.Data;

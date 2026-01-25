@@ -1,10 +1,14 @@
-package fstop.products;
+package fstop.product.infrastructure;
 
 import fstop.BaseEntity;
+import fstop.product.category.infrastructure.ProductCategoryEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Tonny Santana
@@ -14,6 +18,7 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "products")
 public class ProductEntity extends BaseEntity {
     // @OneToMany(mappedBy = "product")
     // @Column(name="category_id")
@@ -25,5 +30,8 @@ public class ProductEntity extends BaseEntity {
     private String price;
     @Column(name = "sale_price")
     private String salePrice;
+    
+    @ManyToMany
+    private List<ProductCategoryEntity> categories;
     
 }
