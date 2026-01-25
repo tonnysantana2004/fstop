@@ -7,6 +7,8 @@ import fstop.user.address.infrastructure.AddressEntity;
 import fstop.user.document.infrastructure.DocumentEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.List;
 

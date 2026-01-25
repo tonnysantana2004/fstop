@@ -2,6 +2,10 @@ package fstop;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.SoftDelete;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,6 +18,7 @@ import java.util.UUID;
 
 @MappedSuperclass
 @Data
+@SoftDelete
 public class BaseEntity {
     
     @Id
@@ -25,10 +30,7 @@ public class BaseEntity {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-    
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

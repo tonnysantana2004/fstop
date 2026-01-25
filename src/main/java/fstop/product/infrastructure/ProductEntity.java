@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
 
 import java.util.List;
 
@@ -20,9 +21,7 @@ import java.util.List;
 @Data
 @Table(name = "products")
 public class ProductEntity extends BaseEntity {
-    // @OneToMany(mappedBy = "product")
-    // @Column(name="category_id")
-    // public ProductCategoryEntity category;
+
     private String title;
     @Column(name = "short_description")
     private String shortDescription;
