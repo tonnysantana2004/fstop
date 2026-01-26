@@ -34,14 +34,13 @@ public class AdminUserConfig implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception{
         
-        var userAdmin = service.findUserByUserName("admin");
+        var userAdmin = userRepository.findByEmail("admin@email.com");
         
         userAdmin.ifPresentOrElse(
                 user -> IO.println("Admin existe"),
                 () -> {
                     
                     var request = new UserRequest();
-                    request.setUserName("admin");
                     request.setFirstName("Administrador");
                     request.setLastName("Sistema");
                     request.setEmail("admin@email.com");
@@ -49,7 +48,7 @@ public class AdminUserConfig implements CommandLineRunner {
                     request.setProfileImage(null);
                     request.setPassword("123");
                     
-                    userService.create(request, true).getFirst();
+                    userService.create(request, true);
                     
                 }
         );

@@ -1,14 +1,21 @@
 package fstop.user;
 
+import fstop.auth.AuthProvider;
 import fstop.exception.user.AdminDeleteException;
+import fstop.exception.user.InvalidUserCredentialsException;
 import fstop.exception.user.UserNotFoundException;
 import fstop.user.address.infrastructure.AddressEntity;
 import fstop.user.document.infrastructure.DocumentEntity;
 import fstop.user.dto.UserMapper;
 import fstop.user.dto.UserRequest;
 import fstop.user.dto.UserResponse;
+import fstop.user.infrastructure.UserEntity;
 import fstop.user.infrastructure.UserRepository;
 import fstop.user.infrastructure.UserRoleEnum;
+import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,20 +30,15 @@ import java.util.UUID;
  */
 
 @Service
+@AllArgsConstructor
 public class UserService {
     
+    private final BCryptPasswordEncoder passwordEncoder;
     private UserRepository repository;
     private UserMapper mapper;
-    private PasswordEncoder passwordEncoder;
     
-    public UserService(UserRepository r, UserMapper m, PasswordEncoder p) {
-        this.repository = r;
-        this.mapper = m;
-        this.passwordEncoder = p;
-    }
     
-    @Transactional
-    public List<UserResponse> create(UserRequest request, boolean admin) {
+    public UserEntity create(UserRequest request, boolean admin) {
         // Entity
         var userEntity = mapper.toEntity(request);
         var password = passwordEncoder.encode(request.getPassword());
@@ -52,10 +54,18 @@ public class UserService {
         address.setUser(userEntity);
         userEntity.setAddress(address);
         
-        if(admin) userEntity.setRole(UserRoleEnum.ADMIN);
+        if (admin) userEntity.setRole(UserRoleEnum.ADMIN);
         
-        repository.saveAndFlush(userEntity);
-        return mapper.toList(List.of(userEntity));
+        try {
+            repository.save(userEntity);
+        } catch (DataIntegrityViolationException e) {
+            
+            // todo: tratar corretamente esse erro
+            // throw new InvalidUserCredentialsException(List.of(e.getMessage()));
+        
+        }
+        
+        return userEntity;
     }
     
     public List<UserResponse> findAll() {

@@ -3,8 +3,13 @@ package fstop.auth.config;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.RSAKey.Builder;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import fstop.auth.AuthFilter;
+import fstop.auth.AuthProvider;
+import fstop.auth.AuthService;
 import fstop.exception.user.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +29,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -34,16 +40,13 @@ import java.security.interfaces.RSAPublicKey;
  * @since 1.0.0
  */
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    
-    @Value("${jwt.app.pub}")
-    private RSAPublicKey publicKey;
-    
-    @Value("${jwt.app.key}")
-    private RSAPrivateKey privateKey;
+
+    private final AuthProvider authProvider;
     
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
@@ -59,33 +62,24 @@ public class SecurityConfig {
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        
+        http.addFilterBefore(new AuthFilter(authProvider), BasicAuthenticationFilter.class);
+        
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/users")
                 .permitAll()
+                .requestMatchers(HttpMethod.POST, "/register")
+                .permitAll()
                 .requestMatchers(HttpMethod.POST, "/login")
+                .permitAll()
+                .requestMatchers(HttpMethod.GET, "/error")
                 .permitAll()
                 .anyRequest()
                 .authenticated());
-        
         http.csrf(AbstractHttpConfigurer::disable);
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
     
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
-    }
-    
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
-        return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
-    }
-    
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

@@ -22,11 +22,6 @@ public class UserController {
     
     private final UserService userService;
     
-    @PostMapping
-    public Object create(@RequestBody UserRequest request) {
-        return ResponseService.success("Novo usuário criado.", userService.create(request, false));
-    }
-    
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER', 'EMPLOYEE')")
     public Object findAll() {
@@ -40,7 +35,7 @@ public class UserController {
     
     @PutMapping("/{userId}")
     public Object update(@PathVariable UUID userId, @RequestBody UserRequest request) {
-        return ResponseService.success("Usuário encontrado.", userService.update(request, userId));
+        return ResponseService.success("Usuário Editado.", userService.update(request, userId));
     }
     
     @DeleteMapping("/{userId}")

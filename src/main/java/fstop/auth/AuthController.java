@@ -1,20 +1,13 @@
 package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
-import fstop.auth.dto.AuthResponse;
-import fstop.exception.user.UserNotFoundException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import fstop.response.ResponseService;
+import fstop.user.dto.UserRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * @author Tonny Santana
@@ -26,54 +19,26 @@ import java.util.List;
 @RequestMapping
 public class AuthController {
     
-    private JwtEncoder jwtEncoder;
+    private AuthService authService;
     
-    public AuthController(JwtEncoder jwtEncoder, AuthService authService) {
-        this.jwtEncoder = jwtEncoder;
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
     
-    private AuthService authService;
-    
     @PostMapping("/login")
-    public final ResponseEntity login(@RequestBody AuthRequest request) {
-        
-        var user = authService.findUserByUserName(request.userName());
-        
-        if (user.isEmpty()) {
-            throw new BadCredentialsException("Dados inválidos.");
-        }
-        
-        if (!authService.isLoginCorrect(request, user.orElseThrow(UserNotFoundException::new))) {
-            throw new BadCredentialsException("Dados inválidos.");
-        }
-        
-        var now = Instant.now();
-        var expiresIn = 300L;
-        
-        List<String> roles = List.of(user
-                .get()
-                .getRole().name());
-        
-        var claims = JwtClaimsSet
-                .builder()
-                .issuer("backend")
-                .subject(user
-                        .orElseThrow(UserNotFoundException::new)
-                        .getId()
-                        .toString())
-                .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiresIn))
-                .claim("roles", roles)
-                .build();
-        
-        var jwtValue = jwtEncoder
-                .encode(JwtEncoderParameters.from(claims))
-                .getTokenValue();
-        
-        return ResponseEntity.ok(new AuthResponse(jwtValue, expiresIn, user
-                .orElseThrow(UserNotFoundException::new)
-                .getId()));
+    public final Object login(@RequestBody AuthRequest request) {
+        return ResponseService.success(
+                "Login bem sucedido.",
+                authService.login(request)
+        );
+    }
+    
+    @PostMapping("/register")
+    public final Object register(@RequestBody UserRequest request) {
+        return ResponseService.success(
+                "Usuário criado.",
+                authService.register(request)
+        );
     }
     
 }

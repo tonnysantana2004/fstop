@@ -29,7 +29,7 @@ public class MessageService {
     public MessageMapper mapper;
     public UserRepository userRepository;
     public TicketRepository ticketRepository;
-    
+    private AuthService authService;
     public Object findAll(UUID ticketId) {
         var ticket = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         return mapper.toList(ticket.getMessages());
@@ -39,7 +39,7 @@ public class MessageService {
         var messageEntity = mapper.toEntity(request);
         var ticket = ticketRepository.findById(ticketId).orElseThrow(TicketNotFoundException::new);
         messageEntity.setTicket(ticket);
-        messageEntity.setAuthor(AuthService.getAuthenticatedUser());
+        messageEntity.setAuthor(authService.getAuthenticatedUser());
         return mapper.toList(List.of(repository.save(messageEntity)));
     }
     

@@ -15,10 +15,9 @@ import java.util.UUID;
  */
 
 @Data
-@JsonPropertyOrder({ "id", "userName", "firstName", "lastName", "email","phone","profileImage", "document", "address", "role" })
+@JsonPropertyOrder({ "id", "firstName", "lastName", "email","phone","profileImage", "document", "address", "role" })
 public class UserResponse {
     private UUID id;
-    private String userName;
     private String firstName;
     private String lastName;
     private String email;

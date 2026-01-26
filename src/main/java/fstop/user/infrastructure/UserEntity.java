@@ -7,6 +7,7 @@ import fstop.user.address.infrastructure.AddressEntity;
 import fstop.user.document.infrastructure.DocumentEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -16,9 +17,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
-    
-    @Column(unique = true, nullable = false, name = "user_name")
-    private String userName;
     
     @Column(nullable = false, name = "first_name")
     private String firstName;
@@ -39,15 +37,16 @@ public class UserEntity extends BaseEntity {
     
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role = UserRoleEnum.CUSTOMER;
-
+    
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private DocumentEntity document;
     
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private AddressEntity address;
     
     @OneToMany(mappedBy = "issuer")
     @JsonIgnore
     private List<TicketEntity> tickets;
+    
     
 }

@@ -1,16 +1,22 @@
 package fstop.auth;
 
 import fstop.auth.dto.AuthRequest;
-import fstop.user.infrastructure.UserEntity;
+import fstop.auth.dto.AuthResponse;
+import fstop.exception.user.InvalidUserCredentialsException;
+import fstop.exception.user.UserNotFoundException;
+import fstop.user.UserService;
 import fstop.user.dto.UserMapper;
+import fstop.user.dto.UserRequest;
+import fstop.user.infrastructure.UserEntity;
 import fstop.user.infrastructure.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -20,38 +26,46 @@ import java.util.UUID;
  */
 
 @Service
+@AllArgsConstructor
 public class AuthService {
     
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userMapper = userMapper;
+    private final UserMapper userMapper;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final AuthProvider authProvider;
+    
+    public List<AuthResponse> login(AuthRequest request) {
+        
+        // Usuário existe e o login está correto
+        authProvider.validateCredentials(request);
+        
+        // Pega o usuário
+        var user = userRepository.findByEmail(request.email()).orElseThrow();
+        
+        // Gera um token válido
+        var token = authProvider.createToken(user);
+        
+        // Coloca o token e o usuário no DTO
+        var authResponse = new AuthResponse(token, userMapper.toResponse(user));
+        
+        // Retorna no padrão de lista
+        return List.of(authResponse);
     }
     
-    private static UserRepository userRepository;
-    private UserMapper userMapper;
-    public PasswordEncoder passwordEncoder;
-    
-    
-    public boolean isLoginCorrect(AuthRequest request, UserEntity user) {
-        if (!passwordEncoder.matches(request.password(), user.getPassword())) return false;
-        return true;
+    public List register(UserRequest request) {
+        var user = userService.create(request, false);
+        var token = authProvider.createToken(user);
+        var authResponse = new AuthResponse(token, userMapper.toResponse(user));
+        return List.of(authResponse);
+        // return List.of("");
     }
     
-    public Optional<UserEntity> findUserByUserName(String username) {
-        var user = userRepository.findByUserName(username);
-        return user;
-    }
-    
-    public void saveUser(UserEntity user) {
-        userRepository.saveAndFlush(user);
-    }
-    
-    public static UserEntity getAuthenticatedUser (){
+    public UserEntity getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
         String userId = jwt.getClaimAsString("sub");
-        
-        return userRepository.findById(UUID.fromString(userId)).orElseThrow();
+        return userRepository.findById(UUID.fromString(userId)).orElseThrow(UserNotFoundException::new);
     }
+    
+
 }
